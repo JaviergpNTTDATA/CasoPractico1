@@ -1,18 +1,19 @@
 package org.javinttdata.menuPrincipal;
 
-import org.javinttdata.Cliente.ClientesRepository;
+import org.javinttdata.Cuenta.CuentaRepository;
 import org.javinttdata.Globales;
-import org.javinttdata.gestionClientes.GestionClientes;
+import org.javinttdata.gestionCuentas.GestionCuentas;
 
 public class MenuPrincipal {
 
-    private final ClientesRepository repository;
+    private final CuentaRepository repositoryCu;
 
-    public MenuPrincipal(ClientesRepository repository) {
-        this.repository = repository;
+    public MenuPrincipal(CuentaRepository repositoryCu) {
+        this.repositoryCu = repositoryCu;
     }
 
-    public void MenuP() {
+    static void MenuP()
+    {
         System.out.println("=========================================");
         System.out.println("        NOVABANK - SISTEMA DE OPERACIONES");
         System.out.println("=========================================");
@@ -23,17 +24,16 @@ public class MenuPrincipal {
         System.out.println("5. Salir");
         System.out.println();
     }
+    public void OpcionesMenuP()
+    {
+        int opcion = 0;
 
-    public void OpcionesMenuP() {
-
-        int opcion;
-        GestionClientes gestion = new GestionClientes(repository);
+        GestionCuentas gestionCu = new GestionCuentas(repositoryCu);
 
         do {
             Globales.LimpiarConsola();
             MenuP();
             System.out.print("Seleccione una opción: ");
-
             try {
                 opcion = Integer.parseInt(Globales.sc.nextLine());
             } catch (NumberFormatException e) {
@@ -43,15 +43,24 @@ public class MenuPrincipal {
             switch (opcion) {
                 case 1:
 
-                    gestion.opcionesMenuC();
+                    break;
+                case 2:
+                    gestionCu.OpcionesMenuC();
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
                     break;
                 case 5:
                     System.out.println("Saliendo del sistema...");
                     break;
                 default:
-                    System.out.println("Opción no válida.");
-                    Globales.Continuar();
+                    System.out.println("Opción no válida. Intente nuevamente.");
             }
+
+            System.out.println();
 
         } while (opcion != 5);
     }

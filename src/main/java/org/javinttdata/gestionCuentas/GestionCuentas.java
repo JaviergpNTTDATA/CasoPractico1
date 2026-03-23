@@ -11,7 +11,7 @@ public class GestionCuentas {
         this.repository = repository;
     }
 
-    private void menuC() {
+    private void MenuC() {
         System.out.println("--- GESTIÓN DE CUENTAS ---");
         System.out.println("1. Crear cuenta");
         System.out.println("2. Listar cuentas de clientes");
@@ -20,15 +20,14 @@ public class GestionCuentas {
         System.out.println();
     }
 
-    public void opcionesMenuC() {
+    public void OpcionesMenuC() {
 
-        int opcion;
+        int opcion = 0;
 
         do {
             Globales.LimpiarConsola();
-            menuC();
+            MenuC();
             System.out.print("Seleccione una opción: ");
-
             try {
                 opcion = Integer.parseInt(Globales.sc.nextLine());
             } catch (NumberFormatException e) {

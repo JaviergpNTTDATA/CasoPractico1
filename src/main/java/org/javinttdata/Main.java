@@ -1,11 +1,11 @@
 package org.javinttdata;
 
-import org.javinttdata.Cliente.ClientesRepository;
+import org.javinttdata.Cuenta.CuentaRepository;
 import org.javinttdata.menuPrincipal.MenuPrincipal;
 
 public class Main {
     public static void main(String[] args) {
-        ClientesRepository repository = new ClientesRepository();
+        CuentaRepository repository = new CuentaRepository();
         MenuPrincipal menu = new MenuPrincipal(repository);
         menu.OpcionesMenuP();
     }
