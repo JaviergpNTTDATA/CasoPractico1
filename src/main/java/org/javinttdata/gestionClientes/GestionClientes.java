@@ -1,14 +1,17 @@
 package org.javinttdata.gestionClientes;
 
+import org.javinttdata.Cliente.ClientesRepository;
 import org.javinttdata.Globales;
-import org.javinttdata.menuPrincipal.MenuPrincipal;
-
-import java.awt.*;
-import java.sql.SQLOutput;
 
 public class GestionClientes {
-    static void MenuC()
-    {
+
+    private final ClientesRepository repository;
+
+    public GestionClientes(ClientesRepository repository) {
+        this.repository = repository;
+    }
+
+    private void menuC() {
         System.out.println("--- GESTIÓN DE CLIENTES ---");
         System.out.println("1. Crear cliente");
         System.out.println("2. Buscar cliente");
@@ -16,49 +19,41 @@ public class GestionClientes {
         System.out.println("4. Volver");
         System.out.println();
     }
-    public static void OpcionesMenuC()
-    {
-        Globales.limpiarConsola();
+
+    public void opcionesMenuC() {
 
         int opcion;
 
         do {
-            MenuC();
+            Globales.LimpiarConsola();
+            menuC();
             System.out.print("Seleccione una opción: ");
+
             try {
                 opcion = Integer.parseInt(Globales.sc.nextLine());
             } catch (NumberFormatException e) {
-                opcion = -1; //Valor por defecto si falla
+                opcion = -1;
             }
+
             switch (opcion) {
                 case 1:
-
+                    OperacionesCliente.CrearCliente(repository);
                     break;
                 case 2:
-
+                    OperacionesCliente.BuscarCliente(repository);
                     break;
                 case 3:
-
+                    OperacionesCliente.MostrarClientes(repository);
                     break;
                 case 4:
-                    System.out.println("Volviendo al menu");
-                    try {//Hago una parada de 3 segundos para simular la carga de otra pantalla de la aplicacion
-                        Thread.sleep(3000);
-                        MenuPrincipal.OpcionesMenuP();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Volviendo al menú...");
+                    Globales.Continuar();
                     break;
                 default:
-                    System.out.println("Opción no válida. Intente nuevamente.");
+                    System.out.println("Opción no válida.");
+                    Globales.Continuar();
             }
 
-            System.out.println();
-
-        } while (opcion != 5);
-    }
-    static void CrearCliente()
-    {
-
+        } while (opcion != 4);
     }
 }
