@@ -1,38 +1,38 @@
-package org.javinttdata.menuPrincipal;
+package org.javinttdata.gestionClientes;
 
 import org.javinttdata.Globales;
-import org.javinttdata.gestionClientes.GestionClientes;
+import org.javinttdata.menuPrincipal.MenuPrincipal;
 
-public class MenuPrincipal {
-    static void MenuP()
+import java.awt.*;
+import java.sql.SQLOutput;
+
+public class GestionClientes {
+    static void MenuC()
     {
-        System.out.println("=========================================");
-        System.out.println("        NOVABANK - SISTEMA DE OPERACIONES");
-        System.out.println("=========================================");
-        System.out.println("1. Gestión de clientes");
-        System.out.println("2. Gestión de cuentas");
-        System.out.println("3. Operaciones financieras");
-        System.out.println("4. Consultas");
-        System.out.println("5. Salir");
+        System.out.println("--- GESTIÓN DE CLIENTES ---");
+        System.out.println("1. Crear cliente");
+        System.out.println("2. Buscar cliente");
+        System.out.println("3. Listar cliente");
+        System.out.println("4. Volver");
         System.out.println();
     }
-    public static void OpcionesMenuP()
+    public static void OpcionesMenuC()
     {
         Globales.limpiarConsola();
+
         int opcion;
 
         do {
-            MenuP();
+            MenuC();
             System.out.print("Seleccione una opción: ");
             try {
                 opcion = Integer.parseInt(Globales.sc.nextLine());
             } catch (NumberFormatException e) {
                 opcion = -1; //Valor por defecto si falla
             }
-
             switch (opcion) {
                 case 1:
-                    GestionClientes.OpcionesMenuC();
+
                     break;
                 case 2:
 
@@ -41,12 +41,10 @@ public class MenuPrincipal {
 
                     break;
                 case 4:
-
-                    break;
-                case 5:
-                    System.out.println("Saliendo del sistema...");
-                    try {
+                    System.out.println("Volviendo al menu");
+                    try {//Hago una parada de 3 segundos para simular la carga de otra pantalla de la aplicacion
                         Thread.sleep(3000);
+                        MenuPrincipal.OpcionesMenuP();
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -58,5 +56,9 @@ public class MenuPrincipal {
             System.out.println();
 
         } while (opcion != 5);
+    }
+    static void CrearCliente()
+    {
+
     }
 }
