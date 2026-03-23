@@ -7,13 +7,8 @@ public class Globales {
     public static Scanner sc = new Scanner(System.in);
 
     //Simulacion de limpieza de consola
-    public static void LimpiarConsola() {
+    public static void limpiarConsola() {
         System.out.println("\n".repeat(60));
-    }
-
-    public static void Continuar() {
-        System.out.println("\nPulse ENTER para continuar...");
-        sc.nextLine();
     }
 
 
