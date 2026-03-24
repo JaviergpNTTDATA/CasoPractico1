@@ -1,6 +1,7 @@
 package org.javinttdata.common.menuPrincipal;
 
 import org.javinttdata.cliente.repository.ClientesRepository;
+import org.javinttdata.consulta.service.GestionConsultas;
 import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.common.Globales;
 import org.javinttdata.cliente.service.GestionClientes;
@@ -39,6 +40,7 @@ public class MenuPrincipal {
         GestionCuentas gestionCu = new GestionCuentas(repositoryCu, repositoryCl);
         GestionClientes gestionCl = new GestionClientes(repositoryCl);
         GestionOperaciones gestionOp = new GestionOperaciones(repositoryOp, repositoryCu);
+        GestionConsultas gestionCo = new GestionConsultas(repositoryOp,repositoryCu);
 
         do {
             Globales.LimpiarConsola();
@@ -61,7 +63,7 @@ public class MenuPrincipal {
                     gestionOp.OpcionesMenuC();
                     break;
                 case 4:
-
+                    gestionCo.OpcionesMenuC();
                     break;
                 case 5:
                     System.out.println("Saliendo del sistema...");
