@@ -1,10 +1,18 @@
 package org.javinttdata.menuPrincipal;
 
+import org.javinttdata.Cliente.ClientesRepository;
 import org.javinttdata.Globales;
+import org.javinttdata.gestionClientes.GestionClientes;
 
 public class MenuPrincipal {
-    static void MenuP()
-    {
+
+    private final ClientesRepository repository;
+
+    public MenuPrincipal(ClientesRepository repository) {
+        this.repository = repository;
+    }
+
+    public void MenuP() {
         System.out.println("=========================================");
         System.out.println("        NOVABANK - SISTEMA DE OPERACIONES");
         System.out.println("=========================================");
@@ -15,36 +23,35 @@ public class MenuPrincipal {
         System.out.println("5. Salir");
         System.out.println();
     }
-    public static void OpcionesMenuP()
-    {
+
+    public void OpcionesMenuP() {
+
         int opcion;
+        GestionClientes gestion = new GestionClientes(repository);
 
         do {
+            Globales.LimpiarConsola();
             MenuP();
             System.out.print("Seleccione una opción: ");
-            opcion = Globales.sc.nextInt();
+
+            try {
+                opcion = Integer.parseInt(Globales.sc.nextLine());
+            } catch (NumberFormatException e) {
+                opcion = -1;
+            }
 
             switch (opcion) {
                 case 1:
 
-                    break;
-                case 2:
-
-                    break;
-                case 3:
-
-                    break;
-                case 4:
-
+                    gestion.opcionesMenuC();
                     break;
                 case 5:
                     System.out.println("Saliendo del sistema...");
                     break;
                 default:
-                    System.out.println("Opción no válida. Intente nuevamente.");
+                    System.out.println("Opción no válida.");
+                    Globales.Continuar();
             }
-
-            System.out.println();
 
         } while (opcion != 5);
     }
