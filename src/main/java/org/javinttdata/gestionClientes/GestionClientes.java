@@ -20,7 +20,7 @@ public class GestionClientes {
         System.out.println();
     }
 
-    public void opcionesMenuC() {
+    public void OpcionesMenuC() {
 
         int opcion;
 

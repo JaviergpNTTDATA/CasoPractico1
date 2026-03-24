@@ -1,14 +1,17 @@
 package org.javinttdata.gestionCuentas;
 
+import org.javinttdata.Cliente.ClientesRepository;
 import org.javinttdata.Cuenta.CuentaRepository;
 import org.javinttdata.Globales;
 
 public class GestionCuentas {
 
-    private final CuentaRepository repository;
+    private final CuentaRepository repositoryCu;
+    private final ClientesRepository repositoryCl;
 
-    public GestionCuentas(CuentaRepository repository) {
-        this.repository = repository;
+    public GestionCuentas(CuentaRepository repository, ClientesRepository repositoryCl) {
+        this.repositoryCu = repository;
+        this.repositoryCl = repositoryCl;
     }
 
     private void MenuC() {
@@ -36,10 +39,13 @@ public class GestionCuentas {
 
             switch (opcion) {
                 case 1:
+                    OperacionesCuenta.CrearCuenta(repositoryCu,repositoryCl);
                     break;
                 case 2:
+                    OperacionesCuenta.ListarCuentas(repositoryCu,repositoryCl);
                     break;
                 case 3:
+                    OperacionesCuenta.InfoCuenta(repositoryCu);
                     break;
                 case 4:
                     System.out.println("Volviendo al menú...");

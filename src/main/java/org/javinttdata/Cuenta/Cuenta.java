@@ -1,5 +1,7 @@
 package org.javinttdata.Cuenta;
 
+import org.javinttdata.Cliente.Cliente;
+
 import java.time.LocalDateTime;
 
 public class Cuenta {
