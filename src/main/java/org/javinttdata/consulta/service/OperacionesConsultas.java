@@ -23,9 +23,9 @@ public class OperacionesConsultas {
     private static final DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
-
     /**
      * Metodo que se encarga de consultar el saldo de una cuenta
+     *
      * @param repository repositorio de cuentas
      */
     static void ConsultarSaldo(CuentaRepository repository) {
@@ -33,10 +33,10 @@ public class OperacionesConsultas {
         System.out.print("Introduzca número de cuenta: ");
         String nCuenta = Globales.sc.nextLine();
 
-        Cuenta encontrada = repository.cuentasPorIban.get(nCuenta);
+        Cuenta encontrada = repository.buscarPorIban(nCuenta);
 
         if (encontrada != null) {
-            System.out.println("Saldo actual: " + encontrada.getSaldo() + "€");
+            System.out.printf("Saldo actual: %,.2f €%n", encontrada.getSaldo());
         } else {
             System.out.println("ERROR: La cuenta no existe");
         }
@@ -45,6 +45,7 @@ public class OperacionesConsultas {
 
     /**
      * Metodo que se encarga de mostrar todos los movimientos de una cuenta
+     *
      * @param repositoryOp repositorio de operaciones
      * @param repositoryCu repositorio de cuentas
      */
@@ -53,9 +54,9 @@ public class OperacionesConsultas {
         System.out.print("Introduzca número de cuenta: ");
         String nCuenta = Globales.sc.nextLine();
 
-        Cuenta encontrada = repositoryCu.cuentasPorIban.get(nCuenta);
+        Cuenta encontrada = repositoryCu.buscarPorIban(nCuenta);
 
-        if (encontrada != null) {
+        if (encontrada != null && repositoryOp.operaciones.get(encontrada.getIban()) != null) {
             List<Operacion> listaOp = repositoryOp.operaciones.get(encontrada.getIban());
             System.out.println("Historial de movimientos - " + nCuenta);
             NumberFormat formatoEuro = NumberFormat.getCurrencyInstance(new Locale("es", "ES"));
@@ -73,14 +74,17 @@ public class OperacionesConsultas {
                 System.out.printf("%-20s | %-22s | %-12s € %n", fecha, tipo.toUpperCase(), cantidad);
             }
 
+        } else if (encontrada != null && repositoryOp.operaciones.get(encontrada.getIban()) == null) {
+            System.out.println("No ha habido ningun movimiento en la cuenta");
         } else {
-            System.out.println("ERROR: La cuenta no existe");
+            System.out.println("No existe la cuenta en la base de datos");
         }
         Globales.Continuar();
     }
 
     /**
      * Metodo que se encarga de mostrar los movimientos de una cuenta comprendidos entre dos fecha
+     *
      * @param repositoryOp repositorio de operaciones
      * @param repositoryCu repositorio de cuentas
      */
@@ -91,43 +95,58 @@ public class OperacionesConsultas {
         System.out.print("Número de cuenta: ");
         String nCuenta = Globales.sc.nextLine();
 
-        Cuenta encontrada = repositoryCu.cuentasPorIban.get(nCuenta);
+        Cuenta encontrada = repositoryCu.buscarPorIban(nCuenta);
+        LocalDate fechaInicio = null;
+        LocalDate fechaFin = null;
 
-        if (encontrada != null) {
+        if (encontrada != null && repositoryOp.operaciones.get(encontrada.getIban()) != null) {
             System.out.print("Fecha inicio (yyyy-MM-dd): ");
-            LocalDate fechaInicio = LocalDate.parse(Globales.sc.nextLine(), formatoDia);
+            try {
+                System.out.print("Fecha inicio (yyyy-MM-dd): ");
+                fechaInicio = LocalDate.parse(Globales.sc.nextLine(), formatoDia);
 
-            System.out.print("Fecha fin (yyyy-MM-dd): ");
-            LocalDate fechaFin = LocalDate.parse(Globales.sc.nextLine(), formatoDia);
 
-            System.out.println();
-            List<Operacion> filtradas = new ArrayList<>();
+                System.out.print("Fecha fin (yyyy-MM-dd): ");
+                fechaFin = LocalDate.parse(Globales.sc.nextLine(), formatoDia);
 
-            for (Operacion op : repositoryOp.operaciones.get(encontrada.getIban())) {
-                LocalDate fechaOperacion = op.getFecha().toLocalDate();
+                System.out.println();
+                List<Operacion> filtradas = new ArrayList<>();
 
-                if (!fechaOperacion.isBefore(fechaInicio) && !fechaOperacion.isAfter(fechaFin)) {
+                for (Operacion op : repositoryOp.operaciones.get(encontrada.getIban())) {
+                    LocalDate fechaOperacion = op.getFecha().toLocalDate();
 
-                    filtradas.add(op);
+                    if (!fechaOperacion.isBefore(fechaInicio) && !fechaOperacion.isAfter(fechaFin)) {
+
+                        filtradas.add(op);
+                    }
                 }
-            }
-            if (filtradas.isEmpty()) {
-                System.out.println("No hay movimientos en ese rango.");
-            } else {
-                System.out.println("Movimientos del " + fechaInicio + " al " + fechaFin + ":");
-                System.out.printf("%-20s | %-22s | %-12s%n", "Fecha", "Tipo", "Cantidad");
-                System.out.println("---------------------|------------------------|------------");
+                if (filtradas.isEmpty()) {
+                    System.out.println("No hay movimientos en ese rango.");
+                } else {
+                    System.out.println("Movimientos del " + fechaInicio + " al " + fechaFin + ":");
+                    System.out.printf("%-20s | %-22s | %-12s%n", "Fecha", "Tipo", "Cantidad");
+                    System.out.println("---------------------|------------------------|------------");
 
-                for (Operacion op : filtradas) {
+                    for (Operacion op : filtradas) {
 
-                    String fecha = op.getFecha().format(formato);
-                    String tipo = op.getTipoO().name();
+                        String fecha = op.getFecha().format(formato);
+                        String tipo = op.getTipoO().name();
 
-                    double cantidad = op.getCantidad();
+                        double cantidad = op.getCantidad();
 
-                    System.out.printf("%-20s | %-22s | %-12s € %n", fecha, tipo.toUpperCase(), cantidad);
+                        System.out.printf("%-20s | %-22s | %-12s € %n", fecha, tipo.toUpperCase(), cantidad);
+                    }
                 }
+
+            } catch (Exception e) {
+                System.out.println("La fechas no se han proporcionado correctamente");
             }
+
+
+        } else if (encontrada != null && repositoryOp.operaciones.get(encontrada.getIban()) == null) {
+            System.out.println("No ha habido ningun movimiento en la cuenta");
+        } else {
+            System.out.println("No existe la cuenta en la base de datos");
         }
         Globales.Continuar();
     }

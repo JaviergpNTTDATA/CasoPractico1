@@ -39,6 +39,15 @@ public class Cuenta {
         return "ES91210000" + secuencial;
     }
 
+    public void ingresar(double cantidad) {
+        this.saldo += cantidad;
+    }
+
+    public void retirar(double cantidad) {
+        this.saldo -= cantidad;
+    }
+
+
     public Cliente getTitular() {
         return titular;
     }
@@ -52,15 +61,11 @@ public class Cuenta {
     }
 
     public void setSaldo(double saldo) {
-        this.saldo += saldo;
+        this.saldo = saldo;
     }
 
     public String getIban() {
         return iban;
-    }
-
-    public void setIban(String iban) {
-        this.iban = iban;
     }
 
     public LocalDateTime getFechaCreacion() {

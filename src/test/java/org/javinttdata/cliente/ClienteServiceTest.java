@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Clase que se encarga de hacer test
  */
-class ClientesRepositoryTest {
+class ClienteServiceTest {
 
     //Declaramos el repositorio
     private ClientesRepository repository;

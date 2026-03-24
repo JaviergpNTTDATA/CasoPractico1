@@ -39,7 +39,7 @@ public class OperacionesCuenta {
         }
 
         Cuenta nuevaCuenta = new Cuenta(cliente);
-        repository.cuentasPorIban.put(nuevaCuenta.getIban(), nuevaCuenta);
+        repository.guardar(nuevaCuenta);
 
         System.out.println("Cuenta creada correctamente.");
         System.out.println("Numero de cuenta: " + nuevaCuenta.getIban());
@@ -103,7 +103,7 @@ public class OperacionesCuenta {
         System.out.print("Introduzca número de cuenta: ");
         String iban = Globales.sc.nextLine();
 
-        Cuenta obtenida = repository.cuentasPorIban.get(iban);
+        Cuenta obtenida = repository.buscarPorIban(iban);
 
         if(obtenida!= null)
         {

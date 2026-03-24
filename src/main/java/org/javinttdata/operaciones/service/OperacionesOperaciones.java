@@ -22,26 +22,26 @@ public class OperacionesOperaciones {
     static void Deposito(CuentaRepository repositoryCu, OperacionesRepository repositoryOp) {
         Globales.LimpiarConsola();
         System.out.print("Indica la cantidad a depositar: ");
-        int cantidad;
+        double cantidad;
         try {
-            cantidad = Integer.parseInt(Globales.sc.nextLine());
+            cantidad = Double.parseDouble(Globales.sc.nextLine());
         } catch (NumberFormatException e) {
             cantidad = -1; //Valor por defecto si falla
         }
         System.out.print("Indica el numero de cuenta: ");
         String nCuenta = Globales.sc.nextLine();
 
-        Cuenta encontrada = repositoryCu.cuentasPorIban.get(nCuenta);
+        Cuenta encontrada = repositoryCu.buscarPorIban(nCuenta);
 
         if (cantidad > 0 && encontrada != null) {
-            encontrada.setSaldo(cantidad);
-            repositoryOp.operaciones//Esto lo he buscado en internet, lo que hace es que si no esta en el hash crea el arraylist y si esta solo añade
+            encontrada.ingresar(cantidad);
+            repositoryOp.operaciones// TODO ajustar con repositorio Esto lo he buscado en internet, lo que hace es que si no esta en el hash crea el arraylist y si esta solo añade
                     .computeIfAbsent(encontrada.getIban(), k -> new ArrayList<>())
                     .add(new Operacion(TipoOperacion.Deposito, cantidad));
             System.out.println("Depósito realizado correctamente.");
             System.out.println("Cuenta:      " + nCuenta);
             System.out.println("Importe:     +" + cantidad + "€");
-            System.out.println("Nuevo saldo: " + encontrada.getSaldo() + "€");
+            System.out.printf("Nuevo saldo: %,.2f €%n", encontrada.getSaldo());
         } else if (cantidad <= 0) {
             System.out.println("La cantidad debe de ser mayor a 0");
         } else {
@@ -58,33 +58,33 @@ public class OperacionesOperaciones {
     static void Retirar(CuentaRepository repositoryCu, OperacionesRepository repositoryOp) {
         Globales.LimpiarConsola();
         System.out.print("Indica la cantidad a retirar: ");
-        int cantidad;
+        double cantidad;
         try {
-            cantidad = Integer.parseInt(Globales.sc.nextLine());
+            cantidad = Double.parseDouble(Globales.sc.nextLine());
         } catch (NumberFormatException e) {
             cantidad = -1; //Valor por defecto si falla
         }
         System.out.print("Indica el numero de cuenta: ");
         String nCuenta = Globales.sc.nextLine();
 
-        Cuenta encontrada = repositoryCu.cuentasPorIban.get(nCuenta);
+        Cuenta encontrada = repositoryCu.buscarPorIban(nCuenta);
 
         if (cantidad > 0 && encontrada != null && encontrada.getSaldo() >= cantidad) {
-            encontrada.setSaldo(-cantidad);
+            encontrada.retirar(cantidad);
             repositoryOp.operaciones
                     .computeIfAbsent(encontrada.getIban(), k -> new ArrayList<>())
                     .add(new Operacion(TipoOperacion.Retiro, -cantidad));
             System.out.println("Retiro realizado correctamente.");
             System.out.println("Cuenta:      " + nCuenta);
             System.out.println("Importe:     -" + cantidad + "€");
-            System.out.println("Nuevo saldo: " + encontrada.getSaldo() + "€");
+            System.out.printf("Nuevo saldo: %,.2f €%n", encontrada.getSaldo());
         } else if (cantidad <= 0) {
             System.out.println("La cantidad debe de ser mayor a 0");
         } else if (encontrada == null) {
             System.out.println("La cuenta no existe en la base de datos");
         } else {
             System.out.println("ERROR: Saldo insuficiente");
-            System.out.println("Saldo disponible: " + encontrada.getSaldo() + "€");
+            System.out.printf("Saldo disponible: %,.2f €%n", encontrada.getSaldo());
             System.out.println("Importe solicitado: " + cantidad + "€");
         }
         Globales.Continuar();
@@ -98,9 +98,9 @@ public class OperacionesOperaciones {
     static void Transferencia(CuentaRepository repositoryCu, OperacionesRepository repositoryOp) {
         Globales.LimpiarConsola();
         System.out.print("Indica la cantidad a transferir: ");
-        int cantidad;
+        double cantidad;
         try {
-            cantidad = Integer.parseInt(Globales.sc.nextLine());
+            cantidad = Double.parseDouble(Globales.sc.nextLine());
         } catch (NumberFormatException e) {
             cantidad = -1; //Valor por defecto si falla
         }
@@ -110,13 +110,13 @@ public class OperacionesOperaciones {
         System.out.print("Indica el numero de cuenta destino: ");
         String nCuentaD = Globales.sc.nextLine();
 
-        Cuenta cO = repositoryCu.cuentasPorIban.get(nCuentaO);
-        Cuenta cD = repositoryCu.cuentasPorIban.get(nCuentaD);
+        Cuenta cO = repositoryCu.buscarPorIban(nCuentaO);
+        Cuenta cD = repositoryCu.buscarPorIban(nCuentaD);
 
 
         if (cantidad > 0 && (cO != null && cD != null) && cO.getSaldo() >= cantidad) {
-            cO.setSaldo(-cantidad);
-            cD.setSaldo(cantidad);
+            cO.retirar(cantidad);
+            cD.ingresar(cantidad);
             repositoryOp.operaciones
                     .computeIfAbsent(cO.getIban(), k -> new ArrayList<>())
                     .add(new Operacion(TipoOperacion.Transferencia_Saliente, -cantidad));
@@ -137,7 +137,7 @@ public class OperacionesOperaciones {
             System.out.println("La cuenta destino no existe en la base de datos");
         } else {
             System.out.println("ERROR: Saldo insuficiente");
-            System.out.println("Saldo disponible: " + cO.getSaldo() + "€");
+            System.out.printf("Saldo disponible: %,.2f €%n", cO.getSaldo());
             System.out.println("Importe solicitado: " + cantidad + "€");
         }
         Globales.Continuar();

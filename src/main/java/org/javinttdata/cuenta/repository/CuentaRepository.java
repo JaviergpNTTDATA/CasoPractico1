@@ -11,7 +11,7 @@ import java.util.Map;
  * Repositorio de Cuenta
  */
 public class CuentaRepository {
-    public final Map<String, Cuenta> cuentasPorIban = new HashMap<>();
+    private final Map<String, Cuenta> cuentasPorIban = new HashMap<>();
 
     /**
      * Metodo que devuelve todas las cuentas
@@ -37,6 +37,14 @@ public class CuentaRepository {
         }
 
         return resultado;
+    }
+
+    public void guardar(Cuenta cuenta) {
+        cuentasPorIban.put(cuenta.getIban(), cuenta);
+    }
+
+    public Cuenta buscarPorIban(String iban) {
+        return cuentasPorIban.get(iban);
     }
 
 }
