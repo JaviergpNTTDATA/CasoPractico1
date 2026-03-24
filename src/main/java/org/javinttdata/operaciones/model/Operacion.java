@@ -4,10 +4,19 @@ import org.javinttdata.operaciones.model.enums.TipoOperacion;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 public class Operacion {
     public TipoOperacion getTipoO() {
         return tipoO;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }
 
     public void setTipoO(TipoOperacion tipoO) {

@@ -7,6 +7,8 @@ import org.javinttdata.operaciones.model.Operacion;
 import org.javinttdata.operaciones.model.enums.TipoOperacion;
 import org.javinttdata.operaciones.repository.OperacionesRepository;
 
+import java.util.ArrayList;
+
 public class OperacionesOperaciones {
 
     static void Deposito(CuentaRepository repositoryCu, OperacionesRepository repositoryOp) {
@@ -25,7 +27,9 @@ public class OperacionesOperaciones {
 
         if (cantidad > 0 && encontrada != null) {
             encontrada.setSaldo(cantidad);
-            repositoryOp.operaciones.put(encontrada, new Operacion(TipoOperacion.Deposito, -cantidad));
+            repositoryOp.operaciones//Esto lo he buscado en internet, lo que hace es que si no esta en el hash crea el arraylist y si esta solo añade
+                    .computeIfAbsent(encontrada.getIban(), k -> new ArrayList<>())
+                    .add(new Operacion(TipoOperacion.Deposito, cantidad));
             System.out.println("Depósito realizado correctamente.");
             System.out.println("Cuenta:      " + nCuenta);
             System.out.println("Importe:     +" + cantidad + "€");
@@ -54,7 +58,9 @@ public class OperacionesOperaciones {
 
         if (cantidad > 0 && encontrada != null && encontrada.getSaldo() >= cantidad) {
             encontrada.setSaldo(-cantidad);
-            repositoryOp.operaciones.put(encontrada, new Operacion(TipoOperacion.Retiro, -cantidad));
+            repositoryOp.operaciones
+                    .computeIfAbsent(encontrada.getIban(), k -> new ArrayList<>())
+                    .add(new Operacion(TipoOperacion.Retiro, -cantidad));
             System.out.println("Retiro realizado correctamente.");
             System.out.println("Cuenta:      " + nCuenta);
             System.out.println("Importe:     -" + cantidad + "€");
@@ -93,8 +99,12 @@ public class OperacionesOperaciones {
         if (cantidad > 0 && (cO != null && cD != null) && cO.getSaldo() >= cantidad) {
             cO.setSaldo(-cantidad);
             cD.setSaldo(cantidad);
-            repositoryOp.operaciones.put(cO, new Operacion(TipoOperacion.Transferencia_Saliente, -cantidad));
-            repositoryOp.operaciones.put(cD, new Operacion(TipoOperacion.Transferencia_Entrante, cantidad));
+            repositoryOp.operaciones
+                    .computeIfAbsent(cO.getIban(), k -> new ArrayList<>())
+                    .add(new Operacion(TipoOperacion.Transferencia_Saliente, -cantidad));
+            repositoryOp.operaciones
+                    .computeIfAbsent(cD.getIban(), k -> new ArrayList<>())
+                    .add(new Operacion(TipoOperacion.Transferencia_Entrante, cantidad));
 
             System.out.println("Transferencia realizada correctamente.");
             System.out.println("Cuenta origen: " + nCuentaO + " -> " + " -" + cantidad + "€");

@@ -4,7 +4,9 @@ import org.javinttdata.cuenta.model.Cuenta;
 import org.javinttdata.operaciones.model.Operacion;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OperacionesRepository {
-    public HashMap<Cuenta, Operacion> operaciones = new HashMap<>();
+    public Map<String, List<Operacion>> operaciones = new HashMap<>();
 }
