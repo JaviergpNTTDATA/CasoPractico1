@@ -1,34 +1,36 @@
-package org.javinttdata.gestionClientes;
+package org.javinttdata.gestionCuentas;
 
 import org.javinttdata.Cliente.ClientesRepository;
+import org.javinttdata.Cuenta.CuentaRepository;
 import org.javinttdata.Globales;
 
-public class GestionClientes {
+public class GestionCuentas {
 
-    private final ClientesRepository repository;
+    private final CuentaRepository repositoryCu;
+    private final ClientesRepository repositoryCl;
 
-    public GestionClientes(ClientesRepository repository) {
-        this.repository = repository;
+    public GestionCuentas(CuentaRepository repository, ClientesRepository repositoryCl) {
+        this.repositoryCu = repository;
+        this.repositoryCl = repositoryCl;
     }
 
-    private void menuC() {
-        System.out.println("--- GESTIÓN DE CLIENTES ---");
-        System.out.println("1. Crear cliente");
-        System.out.println("2. Buscar cliente");
-        System.out.println("3. Listar cliente");
+    private void MenuC() {
+        System.out.println("--- GESTIÓN DE CUENTAS ---");
+        System.out.println("1. Crear cuenta");
+        System.out.println("2. Listar cuentas de clientes");
+        System.out.println("3. Ver informacion de la cuenta");
         System.out.println("4. Volver");
         System.out.println();
     }
 
     public void OpcionesMenuC() {
 
-        int opcion;
+        int opcion = 0;
 
         do {
             Globales.LimpiarConsola();
-            menuC();
+            MenuC();
             System.out.print("Seleccione una opción: ");
-
             try {
                 opcion = Integer.parseInt(Globales.sc.nextLine());
             } catch (NumberFormatException e) {
@@ -37,13 +39,13 @@ public class GestionClientes {
 
             switch (opcion) {
                 case 1:
-                    OperacionesCliente.CrearCliente(repository);
+                    OperacionesCuenta.CrearCuenta(repositoryCu,repositoryCl);
                     break;
                 case 2:
-                    OperacionesCliente.BuscarCliente(repository);
+                    OperacionesCuenta.ListarCuentas(repositoryCu,repositoryCl);
                     break;
                 case 3:
-                    OperacionesCliente.MostrarClientes(repository);
+                    OperacionesCuenta.InfoCuenta(repositoryCu);
                     break;
                 case 4:
                     System.out.println("Volviendo al menú...");

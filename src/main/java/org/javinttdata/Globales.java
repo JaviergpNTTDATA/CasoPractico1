@@ -10,7 +10,6 @@ public class Globales {
     public static void LimpiarConsola() {
         System.out.println("\n".repeat(60));
     }
-
     public static void Continuar() {
         System.out.println("\nPulse ENTER para continuar...");
         sc.nextLine();
