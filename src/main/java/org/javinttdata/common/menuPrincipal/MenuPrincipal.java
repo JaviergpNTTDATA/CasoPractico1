@@ -5,15 +5,19 @@ import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.common.Globales;
 import org.javinttdata.cliente.service.GestionClientes;
 import org.javinttdata.cuenta.service.GestionCuentas;
+import org.javinttdata.operaciones.repository.OperacionesRepository;
+import org.javinttdata.operaciones.service.GestionOperaciones;
 
 public class MenuPrincipal {
 
     private final CuentaRepository repositoryCu;
     private final ClientesRepository repositoryCl;
+    private final OperacionesRepository repositoryOp;
 
-    public MenuPrincipal(CuentaRepository repositoryCu, ClientesRepository repositoryCl) {
+    public MenuPrincipal(CuentaRepository repositoryCu, ClientesRepository repositoryCl, OperacionesRepository repositoryOp) {
         this.repositoryCu = repositoryCu;
         this.repositoryCl = repositoryCl;
+        this.repositoryOp = repositoryOp;
     }
 
     static void MenuP()
@@ -34,6 +38,7 @@ public class MenuPrincipal {
 
         GestionCuentas gestionCu = new GestionCuentas(repositoryCu, repositoryCl);
         GestionClientes gestionCl = new GestionClientes(repositoryCl);
+        GestionOperaciones gestionOp = new GestionOperaciones(repositoryOp, repositoryCu);
 
         do {
             Globales.LimpiarConsola();
@@ -53,7 +58,7 @@ public class MenuPrincipal {
                     gestionCu.OpcionesMenuC();
                     break;
                 case 3:
-
+                    gestionOp.OpcionesMenuC();
                     break;
                 case 4:
 

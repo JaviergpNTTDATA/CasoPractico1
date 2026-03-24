@@ -40,7 +40,7 @@ public class Cuenta {
     }
 
     public void setSaldo(double saldo) {
-        this.saldo = saldo;
+        this.saldo += saldo;
     }
 
     public String getIban() {

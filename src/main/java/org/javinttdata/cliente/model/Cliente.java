@@ -1,5 +1,7 @@
 package org.javinttdata.cliente.model;
 
+import org.javinttdata.common.Globales;
+
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -69,12 +71,7 @@ public class Cliente {
         email = email.trim().toLowerCase();
 
         if (!PATRON_EMAIL.matcher(email).matches()) {
-            System.out.println("Patron de email no valido\nVolviendo al menu");
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            throw new IllegalArgumentException("Patron de email no valido\nVolviendo al menu");
         }
 
         this.email = email;
