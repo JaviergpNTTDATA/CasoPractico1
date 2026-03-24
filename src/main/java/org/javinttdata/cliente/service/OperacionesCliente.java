@@ -26,11 +26,16 @@ public class OperacionesCliente {
         System.out.print("Teléfono: ");
         String telefono = Globales.sc.nextLine();
 
-        Cliente cliente = new Cliente(nombre, apellidos, dni, email, telefono);
+        try {
+            Cliente cliente = new Cliente(nombre, apellidos, dni, email, telefono);
+            repository.guardar(cliente);
 
-        repository.guardar(cliente);
+            System.out.println("\nCliente creado correctamente.\nID cliente: " + cliente.getId() + "\nVolviendo al menu");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-        System.out.println("\nCliente creado correctamente.\nID cliente: " + cliente.getId() + "\nVolviendo al menu");
+
         Globales.Continuar();
     }
 
