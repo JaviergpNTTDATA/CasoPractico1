@@ -1,10 +1,10 @@
-package org.javinttdata.gestionCuentas;
+package org.javinttdata.cuenta.service;
 
-import org.javinttdata.Cliente.Cliente;
-import org.javinttdata.Cliente.ClientesRepository;
-import org.javinttdata.Cuenta.Cuenta;
-import org.javinttdata.Cuenta.CuentaRepository;
-import org.javinttdata.Globales;
+import org.javinttdata.cliente.model.Cliente;
+import org.javinttdata.cliente.repository.ClientesRepository;
+import org.javinttdata.cuenta.model.Cuenta;
+import org.javinttdata.cuenta.repository.CuentaRepository;
+import org.javinttdata.common.Globales;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;

@@ -1,4 +1,6 @@
-package org.javinttdata.Cliente;
+package org.javinttdata.cliente.repository;
+
+import org.javinttdata.cliente.model.Cliente;
 
 import java.util.*;
 

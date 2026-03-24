@@ -1,8 +1,8 @@
 package org.javinttdata;
 
-import org.javinttdata.Cliente.ClientesRepository;
-import org.javinttdata.Cuenta.CuentaRepository;
-import org.javinttdata.menuPrincipal.MenuPrincipal;
+import org.javinttdata.cliente.repository.ClientesRepository;
+import org.javinttdata.cuenta.repository.CuentaRepository;
+import org.javinttdata.common.menuPrincipal.MenuPrincipal;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package org.javinttdata.Cliente;
+package org.javinttdata.cliente.model;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -25,7 +25,7 @@ public class Cliente {
     }
 
     // El ID solo lo asigna el Repository
-    void setId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

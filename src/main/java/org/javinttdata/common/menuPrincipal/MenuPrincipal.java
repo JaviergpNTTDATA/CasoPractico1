@@ -1,10 +1,10 @@
-package org.javinttdata.menuPrincipal;
+package org.javinttdata.common.menuPrincipal;
 
-import org.javinttdata.Cliente.ClientesRepository;
-import org.javinttdata.Cuenta.CuentaRepository;
-import org.javinttdata.Globales;
-import org.javinttdata.gestionClientes.GestionClientes;
-import org.javinttdata.gestionCuentas.GestionCuentas;
+import org.javinttdata.cliente.repository.ClientesRepository;
+import org.javinttdata.cuenta.repository.CuentaRepository;
+import org.javinttdata.common.Globales;
+import org.javinttdata.cliente.service.GestionClientes;
+import org.javinttdata.cuenta.service.GestionCuentas;
 
 public class MenuPrincipal {
 

@@ -1,4 +1,6 @@
-package org.javinttdata.Cuenta;
+package org.javinttdata.cuenta.repository;
+
+import org.javinttdata.cuenta.model.Cuenta;
 
 import java.util.ArrayList;
 import java.util.HashMap;

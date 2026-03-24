@@ -1,10 +1,8 @@
-package org.javinttdata.gestionClientes;
+package org.javinttdata.cliente.service;
 
-import org.javinttdata.Cliente.Cliente;
-import org.javinttdata.Cliente.ClientesRepository;
-import org.javinttdata.Globales;
-
-import java.util.Collections;
+import org.javinttdata.cliente.model.Cliente;
+import org.javinttdata.cliente.repository.ClientesRepository;
+import org.javinttdata.common.Globales;
 
 public class OperacionesCliente {
 

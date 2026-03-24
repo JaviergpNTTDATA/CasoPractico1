@@ -1,7 +1,7 @@
-package org.javinttdata.gestionClientes;
+package org.javinttdata.cliente.service;
 
-import org.javinttdata.Cliente.ClientesRepository;
-import org.javinttdata.Globales;
+import org.javinttdata.cliente.repository.ClientesRepository;
+import org.javinttdata.common.Globales;
 
 public class GestionClientes {
 

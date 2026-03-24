@@ -1,4 +1,4 @@
-package org.javinttdata;
+package org.javinttdata.common;
 
 import java.util.Scanner;
 

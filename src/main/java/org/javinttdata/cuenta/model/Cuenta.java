@@ -1,6 +1,6 @@
-package org.javinttdata.Cuenta;
+package org.javinttdata.cuenta.model;
 
-import org.javinttdata.Cliente.Cliente;
+import org.javinttdata.cliente.model.Cliente;
 
 import java.time.LocalDateTime;
 
