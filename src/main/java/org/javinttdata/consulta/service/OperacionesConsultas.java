@@ -13,11 +13,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+
+/**
+ * Clase que gestiona los metodos que se ejecutan en el menu
+ */
 public class OperacionesConsultas {
+    //Declaramos formatos de fechas que usaremos mas tarde
     private static final DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
+
+    /**
+     * Metodo que se encarga de consultar el saldo de una cuenta
+     * @param repository repositorio de cuentas
+     */
     static void ConsultarSaldo(CuentaRepository repository) {
         Globales.LimpiarConsola();
         System.out.print("Introduzca número de cuenta: ");
@@ -33,6 +43,11 @@ public class OperacionesConsultas {
         Globales.Continuar();
     }
 
+    /**
+     * Metodo que se encarga de mostrar todos los movimientos de una cuenta
+     * @param repositoryOp repositorio de operaciones
+     * @param repositoryCu repositorio de cuentas
+     */
     static void HistorialMov(OperacionesRepository repositoryOp, CuentaRepository repositoryCu) {
         Globales.LimpiarConsola();
         System.out.print("Introduzca número de cuenta: ");
@@ -64,6 +79,11 @@ public class OperacionesConsultas {
         Globales.Continuar();
     }
 
+    /**
+     * Metodo que se encarga de mostrar los movimientos de una cuenta comprendidos entre dos fecha
+     * @param repositoryOp repositorio de operaciones
+     * @param repositoryCu repositorio de cuentas
+     */
     public static void MovPorFechas(OperacionesRepository repositoryOp, CuentaRepository repositoryCu) {
 
         Globales.LimpiarConsola();

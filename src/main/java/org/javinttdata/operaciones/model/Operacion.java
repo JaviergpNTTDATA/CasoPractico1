@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Entidad operacion
+ */
 public class Operacion {
     public TipoOperacion getTipoO() {
         return tipoO;
@@ -31,10 +34,16 @@ public class Operacion {
         this.cantidad = cantidad;
     }
 
+    //Propiedad
     private TipoOperacion tipoO;
     private double cantidad;
     private LocalDateTime fecha;
 
+    /**
+     * Constructor en el que asignamos las propiedades
+     * @param tipoO tipo de operacion
+     * @param cantidad cantidad de la operacion
+     */
     public Operacion(TipoOperacion tipoO, double cantidad) {
         this.tipoO = tipoO;
         this.cantidad = cantidad;

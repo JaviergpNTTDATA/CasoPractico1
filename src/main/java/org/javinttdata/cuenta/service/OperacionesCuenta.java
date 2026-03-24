@@ -9,8 +9,16 @@ import org.javinttdata.common.Globales;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * Clase encargada de gestionas las acciones del menu de operaciones
+ */
 public class OperacionesCuenta {
 
+    /**
+     * Metodo que se encarga de crear una cuenta
+     * @param repository repositorio de cuentas
+     * @param repoCli repositorio de clientes
+     */
     static void CrearCuenta(CuentaRepository repository, ClientesRepository repoCli) {
 
         Globales.LimpiarConsola();
@@ -39,6 +47,12 @@ public class OperacionesCuenta {
         System.out.println("Saldo inicial: " + nuevaCuenta.getSaldo());
         Globales.Continuar();
     }
+
+    /**
+     * Metodo que se encarga de listar todas las cuentas de un id en especifico
+     * @param repository repositorio de cuentas
+     * @param repositoryCl repositorio de clientes
+     */
     static void ListarCuentas(CuentaRepository repository, ClientesRepository repositoryCl)
     {
         Globales.LimpiarConsola();
@@ -78,6 +92,11 @@ public class OperacionesCuenta {
         }
         Globales.Continuar();
     }
+
+    /**
+     * Metodo encargado de mostrar la informacion dado un numero de cuenta
+     * @param repository repositorio de cuentas
+     */
     static void InfoCuenta(CuentaRepository repository)
     {
         Globales.LimpiarConsola();

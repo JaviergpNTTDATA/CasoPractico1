@@ -1,21 +1,31 @@
 package org.javinttdata.operaciones.service;
 
-import org.javinttdata.cliente.repository.ClientesRepository;
 import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.common.Globales;
 import org.javinttdata.operaciones.repository.OperacionesRepository;
 
+/**
+ * Claso encargada de las acciones del menu de operaciones
+ */
 public class GestionOperaciones {
 
+    //Declaramos los repositorios que vamos a usar
     private final OperacionesRepository repositoryOp;
     private final CuentaRepository repositoryCu;
 
+    /**
+     * En el constructor asignamos los repositorios
+     * @param repositoryOp repositorio de operaciones
+     * @param repositoryCu repositorio de cuentas
+     */
     public GestionOperaciones(OperacionesRepository repositoryOp, CuentaRepository repositoryCu) {
         this.repositoryOp = repositoryOp;
         this.repositoryCu = repositoryCu;
     }
 
-
+    /**
+     * Metodo que muestra el menu
+     */
     private void MenuC() {
         System.out.println("--- OPERACIONES FINANCIERAS ---");
         System.out.println("1. Depositar dinero");
@@ -25,6 +35,9 @@ public class GestionOperaciones {
         System.out.println();
     }
 
+    /**
+     * Metodo que se encarga de gestionar las opciones del menu
+     */
     public void OpcionesMenuC() {
 
         int opcion = 0;

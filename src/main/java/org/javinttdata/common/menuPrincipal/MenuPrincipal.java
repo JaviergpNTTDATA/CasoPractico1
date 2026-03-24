@@ -9,18 +9,31 @@ import org.javinttdata.cuenta.service.GestionCuentas;
 import org.javinttdata.operaciones.repository.OperacionesRepository;
 import org.javinttdata.operaciones.service.GestionOperaciones;
 
+/**
+ * Clase que se encarga de mostrar el menu principal
+ */
 public class MenuPrincipal {
 
+    //Declaramos los repositorios que vamos a usar
     private final CuentaRepository repositoryCu;
     private final ClientesRepository repositoryCl;
     private final OperacionesRepository repositoryOp;
 
+    /**
+     * Asignamos los repositorios en el constructor
+     * @param repositoryCu repositorio de cuentas
+     * @param repositoryCl repositorio de clientes
+     * @param repositoryOp repositorio de operaciones
+     */
     public MenuPrincipal(CuentaRepository repositoryCu, ClientesRepository repositoryCl, OperacionesRepository repositoryOp) {
         this.repositoryCu = repositoryCu;
         this.repositoryCl = repositoryCl;
         this.repositoryOp = repositoryOp;
     }
 
+    /**
+     * Metodo que se encarga de mostrar el menu
+     */
     static void MenuP()
     {
         System.out.println("=========================================");
@@ -33,6 +46,10 @@ public class MenuPrincipal {
         System.out.println("5. Salir");
         System.out.println();
     }
+
+    /**
+     * Metodo que gestiona la seleccion de opciones del menu
+     */
     public void OpcionesMenuP()
     {
         int opcion = 0;

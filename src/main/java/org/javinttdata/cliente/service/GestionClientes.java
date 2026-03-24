@@ -3,14 +3,24 @@ package org.javinttdata.cliente.service;
 import org.javinttdata.cliente.repository.ClientesRepository;
 import org.javinttdata.common.Globales;
 
+/**
+ * Clase que gestiona el menu y su opciones
+ */
 public class GestionClientes {
 
-    private final ClientesRepository repository;
+    private final ClientesRepository repository;//Declaramos el repositorio que vamos a usar
 
+    /**
+     * Lo asignamos en el constructor
+     * @param repository repositorio de clientes
+     */
     public GestionClientes(ClientesRepository repository) {
         this.repository = repository;
     }
 
+    /**
+     * Metodo que se encarga de mostrar el menu simplemente
+     */
     private void menuC() {
         System.out.println("--- GESTIÓN DE CLIENTES ---");
         System.out.println("1. Crear cliente");
@@ -20,6 +30,9 @@ public class GestionClientes {
         System.out.println();
     }
 
+    /**
+     * Metodo encargado de la seleccion de opciones del menu
+     */
     public void OpcionesMenuC() {
 
         int opcion;

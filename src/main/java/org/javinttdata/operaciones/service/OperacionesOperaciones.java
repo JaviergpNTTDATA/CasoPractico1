@@ -9,8 +9,16 @@ import org.javinttdata.operaciones.repository.OperacionesRepository;
 
 import java.util.ArrayList;
 
+/**
+ * Clase encargada de las acciones del menu de operaciones
+ */
 public class OperacionesOperaciones {
 
+    /**
+     * Metodo que se encarga de realizar el deposito en la cuenta que se especifique
+     * @param repositoryCu repositorio de cuentas
+     * @param repositoryOp repositorio de operaciones
+     */
     static void Deposito(CuentaRepository repositoryCu, OperacionesRepository repositoryOp) {
         Globales.LimpiarConsola();
         System.out.print("Indica la cantidad a depositar: ");
@@ -42,6 +50,11 @@ public class OperacionesOperaciones {
         Globales.Continuar();
     }
 
+    /**
+     * Metodo que retira de una cuenta seleccionada una cantidad deseada
+     * @param repositoryCu repositorio cuentas
+     * @param repositoryOp repositorio operaciones
+     */
     static void Retirar(CuentaRepository repositoryCu, OperacionesRepository repositoryOp) {
         Globales.LimpiarConsola();
         System.out.print("Indica la cantidad a retirar: ");
@@ -77,6 +90,11 @@ public class OperacionesOperaciones {
         Globales.Continuar();
     }
 
+    /**
+     * Metodo que se encarga de hacer una transferencia entre dos cuentas
+     * @param repositoryCu repositorio cuentas
+     * @param repositoryOp repositorio operaciones
+     */
     static void Transferencia(CuentaRepository repositoryCu, OperacionesRepository repositoryOp) {
         Globales.LimpiarConsola();
         System.out.print("Indica la cantidad a transferir: ");

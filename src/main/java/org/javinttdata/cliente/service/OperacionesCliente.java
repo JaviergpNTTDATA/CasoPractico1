@@ -4,9 +4,15 @@ import org.javinttdata.cliente.model.Cliente;
 import org.javinttdata.cliente.repository.ClientesRepository;
 import org.javinttdata.common.Globales;
 
+/**
+ * Clase que proprciona las acciones del menu
+ */
 public class OperacionesCliente {
 
-
+    /**
+     * Metodo que se encarga de la creacion de un cliente
+     * @param repository repositorio de clientes
+     */
     public static void CrearCliente(ClientesRepository repository) {
 
         Globales.LimpiarConsola();
@@ -39,6 +45,10 @@ public class OperacionesCliente {
         Globales.Continuar();
     }
 
+    /**
+     * Metodo que se encarga de buscar clientes, ya sea por id o por dni
+     * @param repository repositorio de clientes
+     */
     public static void BuscarCliente(ClientesRepository repository) {
         Globales.LimpiarConsola();
         Cliente encontrado;
@@ -93,6 +103,10 @@ public class OperacionesCliente {
         }
     }
 
+    /**
+     * Metodo que muestra los clientes que se han creado
+     * @param repository repositorio de clientes
+     */
     public static void MostrarClientes(ClientesRepository repository) {
         Globales.LimpiarConsola();
 
