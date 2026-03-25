@@ -2,8 +2,7 @@ package org.javinttdata.consulta.service;
 
 import org.javinttdata.common.Globales;
 import org.javinttdata.cuenta.repository.CuentaRepository;
-import org.javinttdata.operaciones.repository.OperacionesRepository;
-import org.javinttdata.operaciones.service.OperacionesOperaciones;
+import org.javinttdata.operacion.repository.OperacionesRepository;
 
 
 /**

@@ -3,8 +3,8 @@ package org.javinttdata.consulta.service;
 import org.javinttdata.common.Globales;
 import org.javinttdata.cuenta.model.Cuenta;
 import org.javinttdata.cuenta.repository.CuentaRepository;
-import org.javinttdata.operaciones.model.Operacion;
-import org.javinttdata.operaciones.repository.OperacionesRepository;
+import org.javinttdata.operacion.model.Operacion;
+import org.javinttdata.operacion.repository.OperacionesRepository;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -100,7 +100,6 @@ public class OperacionesConsultas {
         LocalDate fechaFin = null;
 
         if (encontrada != null && repositoryOp.operaciones.get(encontrada.getIban()) != null) {
-            System.out.print("Fecha inicio (yyyy-MM-dd): ");
             try {
                 System.out.print("Fecha inicio (yyyy-MM-dd): ");
                 fechaInicio = LocalDate.parse(Globales.sc.nextLine(), formatoDia);

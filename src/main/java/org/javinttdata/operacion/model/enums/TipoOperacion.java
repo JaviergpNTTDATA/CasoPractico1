@@ -1,4 +1,4 @@
-package org.javinttdata.operaciones.model.enums;
+package org.javinttdata.operacion.model.enums;
 
 /**
  * Enumeracion de los tipos de operaciones que existen

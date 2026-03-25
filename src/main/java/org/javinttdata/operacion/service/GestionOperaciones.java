@@ -1,8 +1,8 @@
-package org.javinttdata.operaciones.service;
+package org.javinttdata.operacion.service;
 
 import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.common.Globales;
-import org.javinttdata.operaciones.repository.OperacionesRepository;
+import org.javinttdata.operacion.repository.OperacionesRepository;
 
 /**
  * Claso encargada de las acciones del menu de operaciones

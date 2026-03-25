@@ -1,11 +1,11 @@
-package org.javinttdata.operaciones.service;
+package org.javinttdata.operacion.service;
 
 import org.javinttdata.common.Globales;
 import org.javinttdata.cuenta.model.Cuenta;
 import org.javinttdata.cuenta.repository.CuentaRepository;
-import org.javinttdata.operaciones.model.Operacion;
-import org.javinttdata.operaciones.model.enums.TipoOperacion;
-import org.javinttdata.operaciones.repository.OperacionesRepository;
+import org.javinttdata.operacion.model.Operacion;
+import org.javinttdata.operacion.model.enums.TipoOperacion;
+import org.javinttdata.operacion.repository.OperacionesRepository;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class OperacionesOperaciones {
 
         if (cantidad > 0 && encontrada != null) {
             encontrada.ingresar(cantidad);
-            repositoryOp.operaciones// TODO ajustar con repositorio Esto lo he buscado en internet, lo que hace es que si no esta en el hash crea el arraylist y si esta solo añade
+            repositoryOp.operaciones//Esto lo he buscado en internet, lo que hace es que si no esta en el hash crea el arraylist y si esta solo añade
                     .computeIfAbsent(encontrada.getIban(), k -> new ArrayList<>())
                     .add(new Operacion(TipoOperacion.Deposito, cantidad));
             System.out.println("Depósito realizado correctamente.");

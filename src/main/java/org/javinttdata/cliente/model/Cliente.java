@@ -83,7 +83,7 @@ public class Cliente {
         campoObligatorio(email, "Email");
         email = email.trim().toLowerCase();
 
-        if (!PATRON_EMAIL.matcher(email).matches()) {
+        if (!PATRON_EMAIL.matcher(email).matches() && !bandera) {
             throw new IllegalArgumentException("Patron de email no valido\nVolviendo al menu");
         }
 
@@ -107,13 +107,8 @@ public class Cliente {
     private void campoObligatorio(String valor, String campo) {
         if (Objects.isNull(valor) && !bandera || valor.trim().isEmpty() && !bandera) {
             //Pongo lo de la bandera para que no salten mas de una vez un error de campo vacio, con uno ya se sabe que estan mas introducido los datos
-            bandera = true;
-            System.out.println("ERROR: El campo " + campo.toUpperCase() + " no puede estar vacio\nVolviendo al menu");
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            this.bandera = true;
+            throw new IllegalArgumentException("ERROR: El campo " + campo.toUpperCase() + " no puede estar vacio\nVolviendo al menu");
         }
     }
 

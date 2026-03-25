@@ -1,7 +1,6 @@
-package org.javinttdata.operaciones.repository;
+package org.javinttdata.operacion.repository;
 
-import org.javinttdata.cuenta.model.Cuenta;
-import org.javinttdata.operaciones.model.Operacion;
+import org.javinttdata.operacion.model.Operacion;
 
 import java.util.ArrayList;
 import java.util.HashMap;

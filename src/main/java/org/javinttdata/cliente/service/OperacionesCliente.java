@@ -100,6 +100,10 @@ public class OperacionesCliente {
                 }
                 Globales.Continuar();
                 break;
+            default:
+                System.out.println("No has elegido una opcion valida.\nVolviendo al menu");
+                Globales.Continuar();
+                break;
         }
     }
 

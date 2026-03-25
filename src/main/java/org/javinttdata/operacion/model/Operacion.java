@@ -1,10 +1,8 @@
-package org.javinttdata.operaciones.model;
+package org.javinttdata.operacion.model;
 
-import org.javinttdata.operaciones.model.enums.TipoOperacion;
+import org.javinttdata.operacion.model.enums.TipoOperacion;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Entidad operacion

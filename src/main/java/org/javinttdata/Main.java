@@ -3,7 +3,7 @@ package org.javinttdata;
 import org.javinttdata.cliente.repository.ClientesRepository;
 import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.common.menuPrincipal.MenuPrincipal;
-import org.javinttdata.operaciones.repository.OperacionesRepository;
+import org.javinttdata.operacion.repository.OperacionesRepository;
 
 public class Main {
     public static void main(String[] args) {

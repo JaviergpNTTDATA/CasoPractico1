@@ -6,8 +6,8 @@ import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.common.Globales;
 import org.javinttdata.cliente.service.GestionClientes;
 import org.javinttdata.cuenta.service.GestionCuentas;
-import org.javinttdata.operaciones.repository.OperacionesRepository;
-import org.javinttdata.operaciones.service.GestionOperaciones;
+import org.javinttdata.operacion.repository.OperacionesRepository;
+import org.javinttdata.operacion.service.GestionOperaciones;
 
 /**
  * Clase que se encarga de mostrar el menu principal
@@ -87,6 +87,7 @@ public class MenuPrincipal {
                     break;
                 default:
                     System.out.println("Opción no válida. Intente nuevamente.");
+                    Globales.Continuar();
             }
 
             System.out.println();
