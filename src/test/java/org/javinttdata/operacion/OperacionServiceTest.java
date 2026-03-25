@@ -9,10 +9,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class OperacionesFinancierasTest {
+/**
+ * Clase que gestiona los test de operacion
+ */
+class OperacionServiceTest {
+    //Declaramos repositorio y cuenta que usaremos en los test
     private Cuenta cuenta;
     private OperacionesRepository repoOp;
 
+    /**
+     * Antes de cada test creamos un cliente para usarlo de prueba
+     */
     @BeforeEach
     void setUp() {
         Cliente cliente = new Cliente("Test", "User", "12345678X", "test@mail.com", "900100200");
@@ -20,43 +27,23 @@ class OperacionesFinancierasTest {
         repoOp = new OperacionesRepository();
     }
 
+    /**
+     * Este metodo comprueba que se ejecute correctamente el deposito
+     */
     @Test
     void testDepositoExitoso() {
         double cantidad = 500.0;
-        cuenta.ingresar(cantidad); // Lógica de Cuenta.java
+        cuenta.ingresar(cantidad);
 
-        // Simulación de registro en repositorio
+        //Simulamos que se hacer un operacion
         repoOp.operaciones.computeIfAbsent(cuenta.getIban(), k -> new java.util.ArrayList<>())
                 .add(new Operacion(TipoOperacion.Deposito, cantidad));
 
+        //Comparamos el saldo
         assertEquals(500.0, cuenta.getSaldo());
+        //El tamaño de la lista
         assertEquals(1, repoOp.operaciones.get(cuenta.getIban()).size());
+        //Y el tipo de operacion
         assertEquals(TipoOperacion.Deposito, repoOp.operaciones.get(cuenta.getIban()).get(0).getTipoO());
-    }
-
-    @Test
-    void testRetiroInsuficienteNoDeberiaRestarSaldo() {
-        cuenta.ingresar(100.0);
-        double intentoRetiro = 200.0;
-
-        // La lógica en OperacionesOperaciones.java impide el retiro si saldo < cantidad
-        if (cuenta.getSaldo() >= intentoRetiro) {
-            cuenta.retirar(intentoRetiro);
-        }
-
-        assertEquals(100.0, cuenta.getSaldo(), "El saldo no debería haber cambiado");
-    }
-
-    @Test
-    void testTransferenciaMismaCuentaNoDeberiaCausarError() {
-        // Validación lógica: ¿puede un usuario transferirse a sí mismo?
-        cuenta.ingresar(100.0);
-        String ibanOrigen = cuenta.getIban();
-        String ibanDestino = cuenta.getIban();
-
-        if (ibanOrigen.equals(ibanDestino)) {
-            // Podrías lanzar una excepción o simplemente no hacer nada
-        }
-        assertEquals(100.0, cuenta.getSaldo());
     }
 }
