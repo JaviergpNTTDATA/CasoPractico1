@@ -14,7 +14,7 @@ public class Cliente {
     private static final Pattern PATRON_EMAIL = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");//Patron que valida el email
 
     //Propiedades
-    private Integer id;
+    private long id;
     private String nombre;
     private String apellidos;
     private String dni;
@@ -40,11 +40,11 @@ public class Cliente {
     //Getter y Setters
 
     // El ID solo lo asigna el Repository
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 

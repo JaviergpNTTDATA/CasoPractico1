@@ -12,10 +12,5 @@ import java.util.Map;
  */
 public class OperacionesRepository {
     public Map<String, List<Operacion>> operaciones = new HashMap<>();//Mapa encargado de guardar las opereaciones de cada numero de cuenta
-    public void registrarOperacion(String iban, Operacion operacion) {
-        operaciones
-                .computeIfAbsent(iban, k -> new ArrayList<>())
-                .add(operacion);
-    }
 
 }

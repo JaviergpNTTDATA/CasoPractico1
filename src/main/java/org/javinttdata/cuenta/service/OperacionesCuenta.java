@@ -57,7 +57,7 @@ public class OperacionesCuenta {
     {
         Globales.LimpiarConsola();
         System.out.print("Introduzca el ID del cliente: ");
-        int id;
+        long id;
         try {
             id = Integer.parseInt(Globales.sc.nextLine());
         } catch (NumberFormatException e) {

@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public class CuentaRepository {
     private final Map<String, Cuenta> cuentasPorIban = new HashMap<>();
+    private long contadorCuenta = 1L;
 
     /**
      * Metodo que devuelve todas las cuentas
@@ -26,7 +27,7 @@ public class CuentaRepository {
      * @param idCliente id del titular de las cuentas a buscar
      * @return lista de cuentas con el id
      */
-    public List<Cuenta> buscarPorIdCliente(int idCliente) {
+    public List<Cuenta> buscarPorIdCliente(long idCliente) {
 
         List<Cuenta> resultado = new ArrayList<>();
 

@@ -12,7 +12,7 @@ public class ClientesRepository {
     public final Map<String, Cliente> clientesPorDni = new HashMap<>();//Guardamos los clientes por dni
     private final Set<String> emailsRegistrados = new HashSet<>();//Set de email registrados
     private final Set<String> telefonosRegistrados = new HashSet<>();//Set de telefonos registrados
-    private int secuenciaId = 1;
+    private long secuenciaId = 1000L;
 
     /**
      * Metodo que comprueba duplicidad de dni, email y telefono, si no guarda en el Map de arriba
@@ -67,7 +67,7 @@ public class ClientesRepository {
      * @param id el id del cliente que estamos buscando
      * @return devuelve el cliente con el mismo id
      */
-    public Cliente buscarPorId(int id) {
+    public Cliente buscarPorId(long id) {
 
         for (Cliente cliente : clientesPorDni.values()) {
             if (cliente.getId() == id) {
