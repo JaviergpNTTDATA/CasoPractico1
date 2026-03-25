@@ -1,4 +1,4 @@
-# [🏦NOVABANK DIGITAL SERVICES – Sistema de Gestión Bancaria]
+# 🏦 NOVABANK DIGITAL SERVICES – Sistema de Gestión Bancaria
 >Proyecto en Java que simula un sistema bancario básico por consola.
 >Permite gestionar clientes, cuentas y operaciones financieras usando estructuras en memoria.
 
