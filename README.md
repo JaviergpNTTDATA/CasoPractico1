@@ -39,8 +39,8 @@ El proyecto está organizado por dominios y capas:
 * Git
 
 ## 💻 Requisitos del sistema
-Java 17 o superior
-Maven 3.9 o superior
+* Java 17 o superior
+* Maven 3.9 o superior
 
 ## ⚙️ Cómo compilar
 `mvn clean compile`
