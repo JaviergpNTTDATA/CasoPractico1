@@ -28,6 +28,8 @@
 
 ## 🗂 Estructura del proyecto
 El proyecto está organizado por dominios y capas:
+
+
 ![Estructura del Proyecto](docs/estructuraProyecto.png)
 
 ## ⚙️ Tecnologías usadas
