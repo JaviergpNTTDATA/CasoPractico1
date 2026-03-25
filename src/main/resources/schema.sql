@@ -1,5 +1,4 @@
-CREATE
-DATABASE novabank;
+CREATE DATABASE novabank;
 
 CREATE TABLE clientes
 (

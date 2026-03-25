@@ -67,7 +67,7 @@ public class OperacionesCuenta {
         Cliente encontrado = repositoryCl.buscarPorId(id);
         if(encontrado!=null)
         {
-            System.out.println("Cuentas del cliente " + encontrado.getNombre() + encontrado.getApellidos()+":");
+            System.out.println("Cuentas del cliente " + encontrado.getNombre() + " " + encontrado.getApellidos()+":");
             List<Cuenta> cuentasCliente = repository.buscarPorIdCliente(encontrado.getId());
 
             if (!cuentasCliente.isEmpty()) {
