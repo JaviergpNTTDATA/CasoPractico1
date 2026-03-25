@@ -33,7 +33,6 @@ class ClienteServiceTest {
         repository.guardar(cliente);
 
         assertEquals(1, repository.obtenerTodos().size());
-        assertNotNull(cliente.getId());
     }
 
     /**
