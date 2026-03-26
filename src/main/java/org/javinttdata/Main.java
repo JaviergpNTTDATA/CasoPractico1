@@ -1,17 +1,16 @@
 package org.javinttdata;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import org.javinttdata.cliente.repository.ClientesRepository;
+import org.javinttdata.cuenta.repository.CuentaRepository;
+import org.javinttdata.common.menuPrincipal.MenuPrincipal;
+import org.javinttdata.operacion.repository.OperacionesRepository;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        CuentaRepository repositoryCu = new CuentaRepository();//Iniciamos repositorio de cuentas
+        ClientesRepository repositoryCl = new ClientesRepository();//Iniciamos repositorio de clientes
+        OperacionesRepository repositoryOp = new OperacionesRepository();//Iniciamos repositorio de operaciones
+        MenuPrincipal menu = new MenuPrincipal(repositoryCu, repositoryCl, repositoryOp);//Creamos instancia del menu para que pueda recibir los repositorios
+        menu.OpcionesMenuP();//Llamamos al menu principal
     }
 }
