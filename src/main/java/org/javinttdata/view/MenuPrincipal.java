@@ -1,4 +1,4 @@
-package org.javinttdata.common.menuPrincipal;
+package org.javinttdata.view;
 
 import org.javinttdata.cliente.repository.ClientesRepository;
 import org.javinttdata.consulta.service.GestionConsultas;
