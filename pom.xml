@@ -30,7 +30,7 @@
             <version>5.4.0</version>
             <scope>test</scope>
         </dependency>
-        <!-- Driver JDBC para PostgreSQL -->
+        <!-- Driver JDBC para PostgreSQL , ignoramos la advertencia ya que es codigo dado en el pdf-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
