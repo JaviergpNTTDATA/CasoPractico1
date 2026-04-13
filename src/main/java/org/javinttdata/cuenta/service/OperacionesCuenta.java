@@ -19,7 +19,7 @@ public class OperacionesCuenta {
      * @param repository repositorio de cuentas
      * @param repoCli repositorio de clientes
      */
-    static void CrearCuenta(CuentaRepository repository, ClientesRepository repoCli) {
+    public static void CrearCuenta(CuentaRepository repository, ClientesRepository repoCli) {
 
         Globales.LimpiarConsola();
         System.out.print("Introduce el ID del cliente: ");
@@ -53,7 +53,7 @@ public class OperacionesCuenta {
      * @param repository repositorio de cuentas
      * @param repositoryCl repositorio de clientes
      */
-    static void ListarCuentas(CuentaRepository repository, ClientesRepository repositoryCl)
+    public static void ListarCuentas(CuentaRepository repository, ClientesRepository repositoryCl)
     {
         Globales.LimpiarConsola();
         System.out.print("Introduzca el ID del cliente: ");
@@ -97,7 +97,7 @@ public class OperacionesCuenta {
      * Metodo encargado de mostrar la informacion dado un numero de cuenta
      * @param repository repositorio de cuentas
      */
-    static void InfoCuenta(CuentaRepository repository)
+    public static void InfoCuenta(CuentaRepository repository)
     {
         Globales.LimpiarConsola();
         System.out.print("Introduzca número de cuenta: ");

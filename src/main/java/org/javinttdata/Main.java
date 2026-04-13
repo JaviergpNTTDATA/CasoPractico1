@@ -2,7 +2,7 @@ package org.javinttdata;
 
 import org.javinttdata.cliente.repository.ClientesRepository;
 import org.javinttdata.cuenta.repository.CuentaRepository;
-import org.javinttdata.view.MenuPrincipal;
+import org.javinttdata.view.MenuPrincipal.MenuPrincipal;
 import org.javinttdata.operacion.repository.OperacionesRepository;
 
 public class Main {
