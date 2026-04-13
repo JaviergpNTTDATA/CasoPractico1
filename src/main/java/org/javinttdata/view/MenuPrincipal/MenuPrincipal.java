@@ -1,13 +1,10 @@
 package org.javinttdata.view.MenuPrincipal;
 
-import org.javinttdata.cliente.repository.ClientesRepository;
-import org.javinttdata.consulta.service.GestionConsultas;
 import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.common.Globales;
 import org.javinttdata.view.MenuCliente.GestionClientes;
-import org.javinttdata.cuenta.service.GestionCuentas;
 import org.javinttdata.operacion.repository.OperacionesRepository;
-import org.javinttdata.operacion.service.GestionOperaciones;
+import org.javinttdata.view.MenuCuenta.GestionCuentas;
 
 /**
  * Clase que se encarga de mostrar el menu principal
@@ -15,22 +12,24 @@ import org.javinttdata.operacion.service.GestionOperaciones;
 public class MenuPrincipal {
 
     //Declaramos los repositorios que vamos a usar
-    private CuentaRepository repositoryCu = null;
     private OperacionesRepository repositoryOp = null;
 
     private final GestionClientes gestionCl;
+    private final GestionCuentas gestionCu;
 
 
 
-    public MenuPrincipal(CuentaRepository repositoryCu, GestionClientes gestionCl, OperacionesRepository repositoryOp) {
-        this.repositoryCu = repositoryCu;
+    public MenuPrincipal(GestionCuentas gestionCu, GestionClientes gestionCl, OperacionesRepository repositoryOp) {
+        this.gestionCu = gestionCu;
         this.gestionCl = gestionCl;
         this.repositoryOp = repositoryOp;
     }
 
-    public MenuPrincipal(GestionClientes gestionCl)
+
+    public MenuPrincipal(GestionClientes gestionCl, GestionCuentas gestionCu)
     {
         this.gestionCl = gestionCl;
+        this.gestionCu = gestionCu;
     }
 
     /**
@@ -73,7 +72,7 @@ public class MenuPrincipal {
                     gestionCl.opcionesMenu();
                     break;
                 case 2:
-                    //gestionCu.OpcionesMenuC();
+                    gestionCu.opcionesMenu();
                     break;
                 case 3:
                     //gestionOp.OpcionesMenuC();

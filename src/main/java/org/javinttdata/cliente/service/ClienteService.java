@@ -13,9 +13,7 @@ public class ClienteService {
         this.repository = repository;
     }
 
-    public Cliente crearCliente(String nombre, String apellidos,
-                                String dni, String email, String telefono) {
-
+    public Cliente crearCliente(String nombre, String apellidos, String dni, String email, String telefono) {
         Cliente cliente = new Cliente(nombre, apellidos, dni, email, telefono);
         repository.guardar(cliente);
         return cliente;
