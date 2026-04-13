@@ -1,19 +1,59 @@
-package org.javinttdata.cliente.service;
+package org.javinttdata.view.MenuCliente;
 
 import org.javinttdata.cliente.model.Cliente;
-import org.javinttdata.cliente.repository.ClientesRepository;
+import org.javinttdata.cliente.service.ClienteService;
 import org.javinttdata.common.Globales;
 
-/**
- * Clase que proprciona las acciones del menu
- */
-public class OperacionesCliente {
+public class GestionClientes {
 
-    /**
-     * Metodo que se encarga de la creacion de un cliente
-     * @param repository repositorio de clientes
-     */
-    public static void CrearCliente(ClientesRepository repository) {
+    private final ClienteService service;
+
+    public GestionClientes(ClienteService service) {
+        this.service = service;
+    }
+
+    private void menu() {
+        System.out.println("--- GESTIÓN DE CLIENTES ---");
+        System.out.println("1. Crear cliente");
+        System.out.println("2. Buscar cliente");
+        System.out.println("3. Listar clientes");
+        System.out.println("4. Volver");
+        System.out.println();
+    }
+
+    public void opcionesMenu() {
+
+        int opcion;
+
+        do {
+            Globales.LimpiarConsola();
+            menu();
+            System.out.print("Seleccione una opción: ");
+
+            try {
+                opcion = Integer.parseInt(Globales.sc.nextLine());
+            } catch (NumberFormatException e) {
+                opcion = -1;
+            }
+
+            switch (opcion) {
+                case 1 -> crearCliente();
+                case 2 -> buscarCliente();
+                case 3 -> mostrarClientes();
+                case 4 -> {
+                    System.out.println("Volviendo...");
+                    Globales.Continuar();
+                }
+                default -> {
+                    System.out.println("Opción no válida.");
+                    Globales.Continuar();
+                }
+            }
+
+        } while (opcion != 4);
+    }
+
+    private void crearCliente() {
 
         Globales.LimpiarConsola();
 
@@ -33,42 +73,49 @@ public class OperacionesCliente {
         String telefono = Globales.sc.nextLine();
 
         try {
-            Cliente cliente = new Cliente(nombre, apellidos, dni, email, telefono);
-            repository.guardar(cliente);
+            Cliente cliente = service.crearCliente(nombre, apellidos, dni, email, telefono);
 
+            System.out.println("ID desde objeto: " + cliente.getId());
             System.out.println("\nCliente creado correctamente.\nID cliente: " + cliente.getId() + "\nVolviendo al menu");
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-
         Globales.Continuar();
     }
 
-    /**
-     * Metodo que se encarga de buscar clientes, ya sea por id o por dni
-     * @param repository repositorio de clientes
-     */
-    public static void BuscarCliente(ClientesRepository repository) {
+    private void buscarCliente() {
+
         Globales.LimpiarConsola();
+
         Cliente encontrado;
+
         System.out.print("Busqueda de cliente(pulse 1 para buscar por id || 2 si es por dni): ");
+
         int opcion;
+
         try {
             opcion = Integer.parseInt(Globales.sc.nextLine());
         } catch (NumberFormatException e) {
-            opcion = -1; //Valor por defecto si falla
+            opcion = -1;
         }
+
         switch (opcion) {
-            case 1:
+
+            case 1 -> {
                 System.out.print("\nHas elegido buscar por id.\nIntroduzca el id a buscar: ");
+
                 int id;
+
                 try {
                     id = Integer.parseInt(Globales.sc.nextLine());
                 } catch (NumberFormatException e) {
-                    id = -1; //Valor por defecto si falla
+                    id = -1;
                 }
-                encontrado = repository.buscarPorId(id);
+
+                encontrado = service.buscarPorId(id);
+
                 if (encontrado != null) {
                     System.out.println("Cliente encontrado:");
                     System.out.println("ID:        " + encontrado.getId());
@@ -79,15 +126,17 @@ public class OperacionesCliente {
                 } else {
                     System.out.println("ERROR: No se encontró ningún cliente con ID " + id);
                 }
+
                 Globales.Continuar();
-                break;
-            case 2:
+            }
+
+            case 2 -> {
                 System.out.print("\nHas elegido buscar por dni.\nIntroduzca el id a buscar: ");
-                String dni;
 
-                dni = Globales.sc.nextLine();
+                String dni = Globales.sc.nextLine();
 
-                encontrado = repository.buscarPorDni(dni);
+                encontrado = service.buscarPorDni(dni);
+
                 if (encontrado != null) {
                     System.out.println("Cliente encontrado:");
                     System.out.println("ID:        " + encontrado.getId());
@@ -98,33 +147,40 @@ public class OperacionesCliente {
                 } else {
                     System.out.println("ERROR: No se encontró ningún cliente con DNI " + dni);
                 }
+
                 Globales.Continuar();
-                break;
-            default:
+            }
+
+            default -> {
                 System.out.println("No has elegido una opcion valida.\nVolviendo al menu");
                 Globales.Continuar();
-                break;
+            }
         }
     }
 
-    /**
-     * Metodo que muestra los clientes que se han creado
-     * @param repository repositorio de clientes
-     */
-    public static void MostrarClientes(ClientesRepository repository) {
+    private void mostrarClientes() {
+
         Globales.LimpiarConsola();
 
+        if (!service.obtenerTodos().isEmpty()) {
 
-        if (!repository.obtenerTodos().isEmpty()) {
-            System.out.printf("%-5s | %-20s | %-12s | %-25s | %-10s%n", "ID", "Nombre", "DNI", "Email", "Teléfono");
+            System.out.printf("%-5s | %-20s | %-12s | %-25s | %-10s%n",
+                    "ID", "Nombre", "DNI", "Email", "Teléfono");
 
             System.out.println("------|----------------------|--------------|---------------------------|------------");
-            for (Cliente c : repository.obtenerTodos()) {
+
+            for (Cliente c : service.obtenerTodos()) {
 
                 String nombreCompleto = c.getNombre() + " " + c.getApellidos();
 
-                System.out.printf("%-5d | %-20s | %-12s | %-25s | %-10s%n", c.getId(), nombreCompleto, c.getDni(), c.getEmail(), c.getTelefono());
+                System.out.printf("%-5d | %-20s | %-12s | %-25s | %-10s%n",
+                        c.getId(),
+                        nombreCompleto,
+                        c.getDni(),
+                        c.getEmail(),
+                        c.getTelefono());
             }
+
         } else {
             System.out.println("No hay ningun cliente registrado");
         }

@@ -4,7 +4,7 @@ import org.javinttdata.cliente.repository.ClientesRepository;
 import org.javinttdata.consulta.service.GestionConsultas;
 import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.common.Globales;
-import org.javinttdata.cliente.service.GestionClientes;
+import org.javinttdata.view.MenuCliente.GestionClientes;
 import org.javinttdata.cuenta.service.GestionCuentas;
 import org.javinttdata.operacion.repository.OperacionesRepository;
 import org.javinttdata.operacion.service.GestionOperaciones;
@@ -15,20 +15,22 @@ import org.javinttdata.operacion.service.GestionOperaciones;
 public class MenuPrincipal {
 
     //Declaramos los repositorios que vamos a usar
-    private final CuentaRepository repositoryCu;
-    private final ClientesRepository repositoryCl;
-    private final OperacionesRepository repositoryOp;
+    private CuentaRepository repositoryCu = null;
+    private OperacionesRepository repositoryOp = null;
 
-    /**
-     * Asignamos los repositorios en el constructor
-     * @param repositoryCu repositorio de cuentas
-     * @param repositoryCl repositorio de clientes
-     * @param repositoryOp repositorio de operaciones
-     */
-    public MenuPrincipal(CuentaRepository repositoryCu, ClientesRepository repositoryCl, OperacionesRepository repositoryOp) {
+    private final GestionClientes gestionCl;
+
+
+
+    public MenuPrincipal(CuentaRepository repositoryCu, GestionClientes gestionCl, OperacionesRepository repositoryOp) {
         this.repositoryCu = repositoryCu;
-        this.repositoryCl = repositoryCl;
+        this.gestionCl = gestionCl;
         this.repositoryOp = repositoryOp;
+    }
+
+    public MenuPrincipal(GestionClientes gestionCl)
+    {
+        this.gestionCl = gestionCl;
     }
 
     /**
@@ -54,10 +56,7 @@ public class MenuPrincipal {
     {
         int opcion = 0;
 
-        GestionCuentas gestionCu = new GestionCuentas(repositoryCu, repositoryCl);
-        GestionClientes gestionCl = new GestionClientes(repositoryCl);
-        GestionOperaciones gestionOp = new GestionOperaciones(repositoryOp, repositoryCu);
-        GestionConsultas gestionCo = new GestionConsultas(repositoryOp,repositoryCu);
+
 
         do {
             Globales.LimpiarConsola();
@@ -71,16 +70,16 @@ public class MenuPrincipal {
 
             switch (opcion) {
                 case 1:
-                    gestionCl.OpcionesMenuC();
+                    gestionCl.opcionesMenu();
                     break;
                 case 2:
-                    gestionCu.OpcionesMenuC();
+                    //gestionCu.OpcionesMenuC();
                     break;
                 case 3:
-                    gestionOp.OpcionesMenuC();
+                    //gestionOp.OpcionesMenuC();
                     break;
                 case 4:
-                    gestionCo.OpcionesMenuC();
+                    //gestionCo.OpcionesMenuC();
                     break;
                 case 5:
                     System.out.println("Saliendo del sistema...");
