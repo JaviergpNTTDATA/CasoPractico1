@@ -3,7 +3,9 @@ package org.javinttdata;
 import org.javinttdata.cliente.repository.ClientesRepository;
 import org.javinttdata.cliente.service.ClienteService;
 import org.javinttdata.cuenta.repository.CuentaRepository;
+import org.javinttdata.cuenta.service.CuentaService;
 import org.javinttdata.view.MenuCliente.GestionClientes;
+import org.javinttdata.view.MenuCuenta.GestionCuentas;
 import org.javinttdata.view.MenuPrincipal.MenuPrincipal;
 import org.javinttdata.operacion.repository.OperacionesRepository;
 
@@ -17,16 +19,19 @@ public class Main {
 
         //Repositorios
         ClientesRepository clienteRepo = new ClientesRepository();
+        CuentaRepository cuentasRepo = new CuentaRepository();
 
         //Servicios
         ClienteService clienteService = new ClienteService(clienteRepo);
+        CuentaService cuentaService = new CuentaService(cuentasRepo,clienteRepo);
 
         //Menus
         GestionClientes menuClientes = new GestionClientes(clienteService);
+        GestionCuentas menuCuentas = new GestionCuentas(cuentaService);
 
 
 
-        MenuPrincipal menu = new MenuPrincipal(menuClientes);//Creamos instancia del menu para que pueda recibir los repositorios
+        MenuPrincipal menu = new MenuPrincipal(menuClientes, menuCuentas);//Creamos instancia del menu para que pueda recibir los repositorios
         menu.OpcionesMenuP();//Llamamos al menu principal
     }
 }

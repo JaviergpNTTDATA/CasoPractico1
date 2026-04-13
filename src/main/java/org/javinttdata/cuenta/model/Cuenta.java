@@ -10,34 +10,41 @@ import java.time.LocalDateTime;
 public class Cuenta {
 
     //Propiedades
+    private Long id;
     private String iban;
-    private Cliente titular;
+    private Long cliente_id;
     private double saldo;
     private LocalDateTime fechaCreacion;
 
-    private static int contadorCuentas = 1; // contador global
+    //private static int contadorCuentas = 1; // contador global
 
+    public Long getCliente_id() {
+        return cliente_id;
+    }
+
+    public void setCliente_id(Long cliente_id) {
+        this.cliente_id = cliente_id;
+    }
 
     /**
      * Constructor
+     *
      * @param titular cliente al que se asigna la cuenta
      */
-    public Cuenta(Cliente titular) {
-        this.iban = generarIBAN();
-        this.titular = titular;
+    public Cuenta(Long titular) {
+        this.cliente_id = titular;
         this.saldo = 0;
         this.fechaCreacion = LocalDateTime.now();
     }
 
-    /**
-     * Metodo que genera un iban con un patron
-     * @return iban ya creado
-     */
-    public static String generarIBAN() {
-        String secuencial = String.format("%012d", contadorCuentas);
-        contadorCuentas++;
-        return "ES91210000" + secuencial;
+    public Cuenta() {
+
     }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
 
     public void ingresar(double cantidad) {
         this.saldo += cantidad;
@@ -47,13 +54,12 @@ public class Cuenta {
         this.saldo -= cantidad;
     }
 
-
-    public Cliente getTitular() {
-        return titular;
+    public Long getId() {
+        return id;
     }
 
-    public void setTitular(Cliente titular) {
-        this.titular = titular;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public double getSaldo() {
