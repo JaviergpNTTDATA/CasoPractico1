@@ -11,20 +11,25 @@ import org.javinttdata.view.MenuConsultas.GestionConsultas;
 import org.javinttdata.view.MenuCuenta.GestionCuentas;
 import org.javinttdata.view.MenuOperacion.GestionOperaciones;
 import org.javinttdata.view.MenuPrincipal.MenuPrincipal;
-import org.javinttdata.operacion.repository.OperacionesRepository;
+import org.javinttdata.operacion.repository.OperacionesRepositoryJdbc;
 
 public class Main {
     public static void main(String[] args) {
         CuentaRepositoryJdbc repositoryCu = new CuentaRepositoryJdbc();//Iniciamos repositorio de cuentas
         ClientesRepositoryJdbc repositoryCl = new ClientesRepositoryJdbc();//Iniciamos repositorio de clientes
-        OperacionesRepository repositoryOp = new OperacionesRepository();//Iniciamos repositorio de operaciones
+        OperacionesRepositoryJdbc repositoryOp = new OperacionesRepositoryJdbc();//Iniciamos repositorio de operaciones
 
 
 
         //Repositorios
         ClientesRepositoryJdbc clienteRepo = new ClientesRepositoryJdbc();
+<<<<<<< HEAD
         CuentaRepositoryJdbc cuentasRepo = new CuentaRepositoryJdbc();
         OperacionesRepository operacionesRepo = new OperacionesRepository();
+=======
+        CuentaRepository cuentasRepo = new CuentaRepository();
+        OperacionesRepositoryJdbc operacionesRepo = new OperacionesRepositoryJdbc();
+>>>>>>> 4660014 (Commit final de la capa operacion(a priori))
 
         //Servicios
         ClienteService clienteService = new ClienteService(clienteRepo);

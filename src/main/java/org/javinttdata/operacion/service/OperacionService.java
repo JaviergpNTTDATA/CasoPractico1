@@ -3,8 +3,9 @@ package org.javinttdata.operacion.service;
 import org.javinttdata.config.DatabaseConnectionManager;
 import org.javinttdata.cuenta.model.Cuenta;
 import org.javinttdata.cuenta.repository.CuentaRepository;
+import org.javinttdata.operacion.factory.MovimientoFactory;
 import org.javinttdata.operacion.model.enums.TipoOperacion;
-import org.javinttdata.operacion.repository.OperacionesRepository;
+import org.javinttdata.operacion.repository.OperacionesRepositoryJdbc;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -14,10 +15,10 @@ import java.util.Optional;
 public class OperacionService {
 
     private final CuentaRepository cuentaRepository;
-    private final OperacionesRepository operacionesRepository;
+    private final OperacionesRepositoryJdbc operacionesRepository;
 
     public OperacionService(CuentaRepository cuentaRepository,
-                            OperacionesRepository operacionesRepository) {
+                            OperacionesRepositoryJdbc operacionesRepository) {
         this.cuentaRepository = cuentaRepository;
         this.operacionesRepository = operacionesRepository;
     }
@@ -35,6 +36,7 @@ public class OperacionService {
             Optional<Cuenta> cuentaOpt =
                     cuentaRepository.buscarPorNumero(iban, conn);
 
+<<<<<<< HEAD
             if (cuentaOpt.isEmpty())
                 return null;
 
@@ -47,11 +49,14 @@ public class OperacionService {
                     nuevoSaldo,
                     conn
             );
+=======
+            cuenta.ingresar(cantidad);
+            cuentaRepository.actualizarSaldo(conn, cuenta);
+>>>>>>> 4660014 (Commit final de la capa operacion(a priori))
 
-            operacionesRepository.guardar(conn,
-                    Math.toIntExact(cuenta.getId()),
-                    TipoOperacion.DEPOSITO,
-                    cantidad);
+            var movimiento = MovimientoFactory.crearDeposito(cantidad);
+
+            operacionesRepository.guardar(conn, Math.toIntExact(cuenta.getId()), movimiento);
 
             cuenta.setSaldo(nuevoSaldo);
 
@@ -62,9 +67,13 @@ public class OperacionService {
         }
     }
 
+<<<<<<< HEAD
     // =========================
     // RETIRO
     // =========================
+=======
+
+>>>>>>> 4660014 (Commit final de la capa operacion(a priori))
     public Cuenta retirar(String iban, BigDecimal cantidad) {
 
         if (cantidad == null || cantidad.compareTo(BigDecimal.ZERO) <= 0)
@@ -92,10 +101,13 @@ public class OperacionService {
                     conn
             );
 
-            operacionesRepository.guardar(conn,
+            var movimiento = MovimientoFactory.crearRetiro(cantidad);
+
+            operacionesRepository.guardar(
+                    conn,
                     Math.toIntExact(cuenta.getId()),
-                    TipoOperacion.RETIRO,
-                    cantidad);
+                    movimiento
+            );
 
             cuenta.setSaldo(nuevoSaldo);
 
@@ -106,6 +118,7 @@ public class OperacionService {
         }
     }
 
+<<<<<<< HEAD
     // =========================
     // TRANSFERENCIA
     // =========================
@@ -113,6 +126,11 @@ public class OperacionService {
                            String numeroCuentaDestino,
                            BigDecimal importe) {
 
+=======
+
+    public void transferir(String numeroCuentaOrigen, String numeroCuentaDestino, BigDecimal importe) {
+
+>>>>>>> 4660014 (Commit final de la capa operacion(a priori))
         if (importe == null || importe.compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("Importe inválido");
 
@@ -161,15 +179,21 @@ public class OperacionService {
                         conn
                 );
 
-                operacionesRepository.guardar(conn,
-                        Math.toIntExact(origen.getId()),
-                        TipoOperacion.TRANSFERENCIA_SALIENTE,
-                        importe);
+                var movSalida = MovimientoFactory.crearTransferenciaSaliente(importe);
 
-                operacionesRepository.guardar(conn,
+                var movEntrada = MovimientoFactory.crearTransferenciaEntrante(importe);
+
+                operacionesRepository.guardar(
+                        conn,
+                        Math.toIntExact(origen.getId()),
+                        movSalida
+                );
+
+                operacionesRepository.guardar(
+                        conn,
                         Math.toIntExact(destino.getId()),
-                        TipoOperacion.TRANSFERENCIA_ENTRANTE,
-                        importe);
+                        movEntrada
+                );
 
                 conn.commit();
 
@@ -182,4 +206,5 @@ public class OperacionService {
             throw new RuntimeException("Error de conexión", e);
         }
     }
+
 }

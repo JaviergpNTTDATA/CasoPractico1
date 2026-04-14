@@ -2,7 +2,7 @@ package org.javinttdata.view.MenuPrincipal;
 
 import org.javinttdata.common.Globales;
 import org.javinttdata.view.MenuCliente.GestionClientes;
-import org.javinttdata.operacion.repository.OperacionesRepository;
+import org.javinttdata.operacion.repository.OperacionesRepositoryJdbc;
 import org.javinttdata.view.MenuConsultas.GestionConsultas;
 import org.javinttdata.view.MenuCuenta.GestionCuentas;
 import org.javinttdata.view.MenuOperacion.GestionOperaciones;
@@ -13,7 +13,7 @@ import org.javinttdata.view.MenuOperacion.GestionOperaciones;
 public class MenuPrincipal {
 
     //Declaramos los repositorios que vamos a usar
-    private OperacionesRepository repositoryOp = null;
+    private OperacionesRepositoryJdbc repositoryOp = null;
 
     private final GestionClientes gestionCl;
     private final GestionCuentas gestionCu;
