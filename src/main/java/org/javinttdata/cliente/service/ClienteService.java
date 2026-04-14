@@ -1,33 +1,43 @@
 package org.javinttdata.cliente.service;
 
 import org.javinttdata.cliente.model.Cliente;
-import org.javinttdata.cliente.repository.ClientesRepository;
+import org.javinttdata.cliente.model.ClienteBuilder;
+import org.javinttdata.cliente.repository.ClientesRepositoryJdbc;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ClienteService {
 
-    private final ClientesRepository repository;
+    private final ClientesRepositoryJdbc repository;
 
-    public ClienteService(ClientesRepository repository) {
+    public ClienteService(ClientesRepositoryJdbc repository) {
         this.repository = repository;
     }
 
     public Cliente crearCliente(String nombre, String apellidos, String dni, String email, String telefono) {
-        Cliente cliente = new Cliente(nombre, apellidos, dni, email, telefono);
+        //Hacemos uso de builder de cliente
+        Cliente cliente = new ClienteBuilder()
+                .nombre(nombre)
+                .apellidos(apellidos)
+                .dni(dni)
+                .email(email)
+                .telefono(telefono)
+                .build();
         repository.guardar(cliente);
         return cliente;
     }
 
     public Cliente buscarPorId(long id) {
-        return repository.buscarPorId(id);
+        return repository.buscarPorId(id).orElse(null);
     }
 
     public Cliente buscarPorDni(String dni) {
-        return repository.buscarPorDni(dni);
+        return repository.buscarPorDni(dni).orElse(null);
     }
 
     public List<Cliente> obtenerTodos() {
-        return repository.obtenerTodos();
+        return repository.listarTodos();
     }
+
 }
