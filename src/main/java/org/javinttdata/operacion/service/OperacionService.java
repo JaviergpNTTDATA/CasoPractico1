@@ -6,7 +6,9 @@ import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.operacion.model.enums.TipoOperacion;
 import org.javinttdata.operacion.repository.OperacionesRepository;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class OperacionService {
 
@@ -19,11 +21,12 @@ public class OperacionService {
         this.operacionesRepository = operacionesRepository;
     }
 
-    public Cuenta depositar(String iban, double cantidad) {
+    public Cuenta depositar(String iban, BigDecimal cantidad) {
 
-        if (cantidad <= 0) return null;
+        if (cantidad == null || cantidad.compareTo(BigDecimal.ZERO) <= 0)
+            return null;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection()) {
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection()) {
 
             Cuenta cuenta = cuentaRepository.buscarPorIban(conn, iban);
             if (cuenta == null) return null;
@@ -44,15 +47,17 @@ public class OperacionService {
         }
     }
 
-    public Cuenta retirar(String iban, double cantidad) {
+    public Cuenta retirar(String iban, BigDecimal cantidad) {
 
-        if (cantidad <= 0) return null;
+        if (cantidad == null || cantidad.compareTo(BigDecimal.ZERO) <= 0)
+            return null;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection()) {
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection()) {
 
             Cuenta cuenta = cuentaRepository.buscarPorIban(conn, iban);
 
-            if (cuenta == null || cuenta.getSaldo() < cantidad)
+            if (cuenta == null ||
+                    cuenta.getSaldo().compareTo(cantidad) < 0)
                 return null;
 
             cuenta.retirar(cantidad);
@@ -71,54 +76,64 @@ public class OperacionService {
         }
     }
 
-    public boolean transferir(String ibanOrigen,
-                              String ibanDestino,
-                              double cantidad) {
+    public void transferir(String numeroCuentaOrigen,
+                           String numeroCuentaDestino,
+                           BigDecimal importe) {
 
-        if (cantidad <= 0) return false;
+        if (importe == null || importe.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Importe inválido");
+        }
 
-        try (Connection conn = DatabaseConnectionManager.getConnection()) {
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection()) {
 
             conn.setAutoCommit(false);
 
             try {
 
-                Cuenta origen = cuentaRepository.buscarPorIban(conn, ibanOrigen);
-                Cuenta destino = cuentaRepository.buscarPorIban(conn, ibanDestino);
+                Cuenta origen = cuentaRepository
+                        .buscarPorIban(conn, numeroCuentaOrigen);
 
-                if (origen == null || destino == null ||
-                        origen.getSaldo() < cantidad) {
+                if (origen == null)
+                    throw new RuntimeException("Cuenta origen no encontrada");
 
-                    conn.rollback();
-                    return false;
-                }
+                Cuenta destino = cuentaRepository
+                        .buscarPorIban(conn, numeroCuentaDestino);
 
-                origen.retirar(cantidad);
-                destino.ingresar(cantidad);
+                if (destino == null)
+                    throw new RuntimeException("Cuenta destino no encontrada");
 
+                if (origen.getSaldo().compareTo(importe) < 0)
+                    throw new RuntimeException("Saldo insuficiente");
+
+                // Actualizar saldos en memoria
+                origen.setSaldo(origen.getSaldo().subtract(importe));
+                destino.setSaldo(destino.getSaldo().add(importe));
+
+                // Persistir cambios
                 cuentaRepository.actualizarSaldo(conn, origen);
                 cuentaRepository.actualizarSaldo(conn, destino);
 
+                // Registrar movimientos
                 operacionesRepository.guardar(conn,
                         Math.toIntExact(origen.getId()),
                         TipoOperacion.TRANSFERENCIA_SALIENTE,
-                        cantidad);
+                        importe);
 
                 operacionesRepository.guardar(conn,
                         Math.toIntExact(destino.getId()),
                         TipoOperacion.TRANSFERENCIA_ENTRANTE,
-                        cantidad);
+                        importe);
 
                 conn.commit();
-                return true;
 
             } catch (Exception e) {
                 conn.rollback();
-                throw e;
+                throw new RuntimeException(
+                        "Error en la transferencia", e);
             }
 
-        } catch (Exception e) {
-            throw new RuntimeException("Error en transferencia", e);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error de conexión", e);
         }
     }
 }

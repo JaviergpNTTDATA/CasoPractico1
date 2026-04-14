@@ -25,7 +25,7 @@ public class CuentaRepository {
                 SELECT * FROM cuentas
                 """;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sentencia1)) {
 
             ResultSet rs = stmt.executeQuery();
@@ -35,7 +35,7 @@ public class CuentaRepository {
                 String sentencia2 = """
                         SELECT * FROM clientes WHERE id = ?
                         """;
-                try (Connection conn2 = DatabaseConnectionManager.getConnection();
+                try (Connection conn2 = DatabaseConnectionManager.getInstance().getConnection();
                      PreparedStatement stmt2 = conn2.prepareStatement(sentencia2)) {
 
                     stmt2.setLong(1, rs.getLong("cliente_id"));
@@ -79,7 +79,7 @@ public class CuentaRepository {
             WHERE cliente_id = ?
             """;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, idCliente);
@@ -91,7 +91,7 @@ public class CuentaRepository {
                 Cuenta encontrada = new Cuenta();
                 encontrada.setId(rs.getLong("id"));
                 encontrada.setIban(rs.getString("numero_cuenta"));
-                encontrada.setSaldo(rs.getDouble("saldo"));
+                encontrada.setSaldo(rs.getBigDecimal("saldo"));
                 encontrada.setCliente_id(rs.getLong("cliente_id"));
                 encontrada.setFechaCreacion(
                         rs.getTimestamp("fecha_creacion")
@@ -115,7 +115,7 @@ public class CuentaRepository {
                 VALUES (?, ?, ?, ?)
                 """;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sentencia, Statement.RETURN_GENERATED_KEYS)) {
 
             String ibanGenerado = generarIBAN(conn);
@@ -124,7 +124,7 @@ public class CuentaRepository {
             cuenta.setIban(ibanGenerado);
             stmt.setString(1, ibanGenerado);
             stmt.setLong(2, cuenta.getCliente_id());
-            stmt.setDouble(3, cuenta.getSaldo());
+            stmt.setBigDecimal(3, cuenta.getSaldo());
             stmt.setTimestamp(4, Timestamp.valueOf(cuenta.getFechaCreacion()));
             stmt.executeUpdate();
 
@@ -157,7 +157,7 @@ public class CuentaRepository {
                 SELECT * FROM cuentas WHERE numero_cuenta = ?
                 """;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sentencia1)) {
 
             stmt.setString(1, iban);
@@ -172,7 +172,7 @@ public class CuentaRepository {
                 encontrada.setCliente_id(rs.getLong("cliente_id"));
                 encontrada.setId(rs.getLong("id"));
 
-                encontrada.setSaldo(rs.getDouble("saldo"));
+                encontrada.setSaldo(rs.getBigDecimal("saldo"));
             }
 
         } catch (SQLException e) {
@@ -191,7 +191,7 @@ public class CuentaRepository {
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setDouble(1, cuenta.getSaldo());
+            stmt.setBigDecimal(1, cuenta.getSaldo());
             stmt.setLong(2, cuenta.getId());
 
             stmt.executeUpdate();
@@ -223,8 +223,8 @@ public class CuentaRepository {
                         rs.getTimestamp("fecha_creacion").toLocalDateTime());
                 encontrada.setCliente_id(rs.getLong("cliente_id"));
                 encontrada.setId(rs.getLong("id"));
-                encontrada.setSaldo(rs.getDouble("saldo"));
-                encontrada.setSaldo(rs.getDouble("saldo"));
+                encontrada.setSaldo(rs.getBigDecimal("saldo"));
+                encontrada.setSaldo(rs.getBigDecimal("saldo"));
 
             }
 

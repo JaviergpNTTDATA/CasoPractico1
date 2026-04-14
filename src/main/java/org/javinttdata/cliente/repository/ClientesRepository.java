@@ -23,7 +23,7 @@ public class ClientesRepository {
                 VALUES (?, ?, ?, ?, ?)
                 """;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sentencia, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, cliente.getNombre());
@@ -68,7 +68,7 @@ public class ClientesRepository {
                 SELECT * FROM clientes
                 """;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sentencia)) {
 
             ResultSet rs = stmt.executeQuery();
@@ -103,7 +103,7 @@ public class ClientesRepository {
                 SELECT * FROM clientes WHERE dni = ?
                 """;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sentencia)) {
 
             stmt.setString(1, dni.toUpperCase());
@@ -140,7 +140,7 @@ public class ClientesRepository {
                 SELECT * FROM clientes WHERE id = ?
                 """;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = DatabaseConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sentencia)) {
 
             stmt.setLong(1, id);

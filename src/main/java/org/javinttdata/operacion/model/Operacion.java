@@ -2,6 +2,7 @@ package org.javinttdata.operacion.model;
 
 import org.javinttdata.operacion.model.enums.TipoOperacion;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -11,7 +12,7 @@ public class Operacion {
 
     //Propiedad
     private TipoOperacion tipoO;
-    private double cantidad;
+    private BigDecimal cantidad;
     private LocalDateTime fecha;
 
 
@@ -31,11 +32,11 @@ public class Operacion {
         this.tipoO = tipoO;
     }
 
-    public double getCantidad() {
+    public BigDecimal getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(double cantidad) {
+    public void setCantidad(BigDecimal cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -45,7 +46,7 @@ public class Operacion {
      * @param tipoO tipo de operacion
      * @param cantidad cantidad de la operacion
      */
-    public Operacion(TipoOperacion tipoO, double cantidad) {
+    public Operacion(TipoOperacion tipoO, BigDecimal cantidad) {
         this.tipoO = tipoO;
         this.cantidad = cantidad;
         this.fecha = LocalDateTime.now();

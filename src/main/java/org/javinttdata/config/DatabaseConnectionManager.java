@@ -32,7 +32,7 @@ public class DatabaseConnectionManager {
     }
 
     // Abre una NUEVA conexión en cada llamada — NO comparte una conexión única
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL,USER,PASS);
     }
 

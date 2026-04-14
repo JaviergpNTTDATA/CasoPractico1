@@ -2,6 +2,7 @@ package org.javinttdata.cuenta.model;
 
 import org.javinttdata.cliente.model.Cliente;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -13,7 +14,7 @@ public class Cuenta {
     private Long id;
     private String iban;
     private Long cliente_id;
-    private double saldo;
+    private BigDecimal saldo;
     private LocalDateTime fechaCreacion;
 
     //private static int contadorCuentas = 1; // contador global
@@ -33,7 +34,7 @@ public class Cuenta {
      */
     public Cuenta(Long titular) {
         this.cliente_id = titular;
-        this.saldo = 0;
+        this.saldo = BigDecimal.valueOf(0);
         this.fechaCreacion = LocalDateTime.now();
     }
 
@@ -46,13 +47,25 @@ public class Cuenta {
     }
 
 
-    public void ingresar(double cantidad) {
-        this.saldo += cantidad;
+    public void ingresar(BigDecimal cantidad) {
+        if (cantidad == null || cantidad.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
+        }
+        this.saldo = this.saldo.add(cantidad);
     }
 
-    public void retirar(double cantidad) {
-        this.saldo -= cantidad;
+    public void retirar(BigDecimal cantidad) {
+        if (cantidad == null || cantidad.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
+        }
+
+        if (this.saldo.compareTo(cantidad) < 0) {
+            throw new IllegalArgumentException("Saldo insuficiente");
+        }
+
+        this.saldo = this.saldo.subtract(cantidad);
     }
+
 
     public Long getId() {
         return id;
@@ -62,11 +75,11 @@ public class Cuenta {
         this.id = id;
     }
 
-    public double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 

@@ -4,6 +4,8 @@ import org.javinttdata.common.Globales;
 import org.javinttdata.cuenta.model.Cuenta;
 import org.javinttdata.operacion.service.OperacionService;
 
+import java.math.BigDecimal;
+
 public class GestionOperaciones {
 
     private final OperacionService service;
@@ -58,27 +60,31 @@ public class GestionOperaciones {
         Globales.LimpiarConsola();
         System.out.print("Indica la cantidad a depositar: ");
 
-        double cantidad;
+        BigDecimal cantidad;
         try {
-            cantidad = Double.parseDouble(Globales.sc.nextLine());
+            cantidad = new BigDecimal(Globales.sc.nextLine());
         } catch (NumberFormatException e) {
-            cantidad = -1;
+            cantidad = BigDecimal.valueOf(-1);
         }
 
         System.out.print("Indica el numero de cuenta: ");
         String nCuenta = Globales.sc.nextLine();
 
+        if (cantidad.compareTo(BigDecimal.ZERO) <= 0) {
+            System.out.println("La cantidad debe ser mayor a 0");
+            Globales.Continuar();
+            return;
+        }
+
         Cuenta cuenta = service.depositar(nCuenta, cantidad);
 
-        if (cantidad <= 0) {
-            System.out.println("La cantidad debe de ser mayor a 0");
-        } else if (cuenta == null) {
+        if (cuenta == null) {
             System.out.println("La cuenta no existe en la base de datos");
         } else {
             System.out.println("Depósito realizado correctamente.");
             System.out.println("Cuenta:      " + nCuenta);
             System.out.println("Importe:     +" + cantidad + "€");
-            System.out.printf("Nuevo saldo: %,.2f €%n", cuenta.getSaldo());
+            System.out.println("Nuevo saldo: " + cuenta.getSaldo() + " €");
         }
 
         Globales.Continuar();
@@ -89,27 +95,31 @@ public class GestionOperaciones {
         Globales.LimpiarConsola();
         System.out.print("Indica la cantidad a retirar: ");
 
-        double cantidad;
+        BigDecimal cantidad;
         try {
-            cantidad = Double.parseDouble(Globales.sc.nextLine());
+            cantidad = new BigDecimal(Globales.sc.nextLine());
         } catch (NumberFormatException e) {
-            cantidad = -1;
+            cantidad = BigDecimal.valueOf(-1);
         }
 
         System.out.print("Indica el numero de cuenta: ");
         String nCuenta = Globales.sc.nextLine();
 
+        if (cantidad.compareTo(BigDecimal.ZERO) <= 0) {
+            System.out.println("La cantidad debe ser mayor a 0");
+            Globales.Continuar();
+            return;
+        }
+
         Cuenta cuenta = service.retirar(nCuenta, cantidad);
 
-        if (cantidad <= 0) {
-            System.out.println("La cantidad debe de ser mayor a 0");
-        } else if (cuenta == null) {
-            System.out.println("La cuenta no existe en la base de datos o saldo insuficiente");
+        if (cuenta == null) {
+            System.out.println("La cuenta no existe o saldo insuficiente");
         } else {
             System.out.println("Retiro realizado correctamente.");
             System.out.println("Cuenta:      " + nCuenta);
             System.out.println("Importe:     -" + cantidad + "€");
-            System.out.printf("Nuevo saldo: %,.2f €%n", cuenta.getSaldo());
+            System.out.println("Nuevo saldo: " + cuenta.getSaldo() + " €");
         }
 
         Globales.Continuar();
@@ -120,11 +130,11 @@ public class GestionOperaciones {
         Globales.LimpiarConsola();
         System.out.print("Indica la cantidad a transferir: ");
 
-        double cantidad;
+        BigDecimal cantidad;
         try {
-            cantidad = Double.parseDouble(Globales.sc.nextLine());
+            cantidad = new BigDecimal(Globales.sc.nextLine());
         } catch (NumberFormatException e) {
-            cantidad = -1;
+            cantidad = BigDecimal.valueOf(-1);
         }
 
         System.out.print("Indica el numero de cuenta origen: ");
@@ -133,16 +143,21 @@ public class GestionOperaciones {
         System.out.print("Indica el numero de cuenta destino: ");
         String nCuentaD = Globales.sc.nextLine();
 
-        boolean ok = service.transferir(nCuentaO, nCuentaD, cantidad);
+        if (cantidad.compareTo(BigDecimal.ZERO) <= 0) {
+            System.out.println("La cantidad debe ser mayor a 0");
+            Globales.Continuar();
+            return;
+        }
 
-        if (cantidad <= 0) {
-            System.out.println("La cantidad debe de ser mayor a 0");
-        } else if (!ok) {
-            System.out.println("ERROR: Transferencia no realizada (cuentas inexistentes o saldo insuficiente)");
-        } else {
+        try {
+            service.transferir(nCuentaO, nCuentaD, cantidad);
+
             System.out.println("Transferencia realizada correctamente.");
-            System.out.println("Cuenta origen: " + nCuentaO + " ->  -" + cantidad + "€");
-            System.out.println("Cuenta destino: " + nCuentaD + " ->  +" + cantidad + "€");
+            System.out.println("Cuenta origen:  " + nCuentaO + " -> -" + cantidad + "€");
+            System.out.println("Cuenta destino: " + nCuentaD + " -> +" + cantidad + "€");
+
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getMessage());
         }
 
         Globales.Continuar();
