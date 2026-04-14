@@ -84,6 +84,10 @@ public class OperacionService {
             throw new IllegalArgumentException("Importe inválido");
         }
 
+        if (numeroCuentaOrigen.equals(numeroCuentaDestino)) {
+            throw new IllegalArgumentException("No se puede transferir a la misma cuenta");
+        }
+
         try (Connection conn = DatabaseConnectionManager.getInstance().getConnection()) {
 
             conn.setAutoCommit(false);
@@ -105,15 +109,12 @@ public class OperacionService {
                 if (origen.getSaldo().compareTo(importe) < 0)
                     throw new RuntimeException("Saldo insuficiente");
 
-                // Actualizar saldos en memoria
                 origen.setSaldo(origen.getSaldo().subtract(importe));
                 destino.setSaldo(destino.getSaldo().add(importe));
 
-                // Persistir cambios
                 cuentaRepository.actualizarSaldo(conn, origen);
                 cuentaRepository.actualizarSaldo(conn, destino);
 
-                // Registrar movimientos
                 operacionesRepository.guardar(conn,
                         Math.toIntExact(origen.getId()),
                         TipoOperacion.TRANSFERENCIA_SALIENTE,
@@ -128,8 +129,7 @@ public class OperacionService {
 
             } catch (Exception e) {
                 conn.rollback();
-                throw new RuntimeException(
-                        "Error en la transferencia", e);
+                throw new RuntimeException("Error en la transferencia", e);
             }
 
         } catch (SQLException e) {

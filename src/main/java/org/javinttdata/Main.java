@@ -1,6 +1,6 @@
 package org.javinttdata;
 
-import org.javinttdata.cliente.repository.ClientesRepository;
+import org.javinttdata.cliente.repository.ClientesRepositoryJdbc;
 import org.javinttdata.cliente.service.ClienteService;
 import org.javinttdata.consulta.service.ConsultaService;
 import org.javinttdata.cuenta.repository.CuentaRepository;
@@ -16,13 +16,13 @@ import org.javinttdata.operacion.repository.OperacionesRepository;
 public class Main {
     public static void main(String[] args) {
         CuentaRepository repositoryCu = new CuentaRepository();//Iniciamos repositorio de cuentas
-        ClientesRepository repositoryCl = new ClientesRepository();//Iniciamos repositorio de clientes
+        ClientesRepositoryJdbc repositoryCl = new ClientesRepositoryJdbc();//Iniciamos repositorio de clientes
         OperacionesRepository repositoryOp = new OperacionesRepository();//Iniciamos repositorio de operaciones
 
 
 
         //Repositorios
-        ClientesRepository clienteRepo = new ClientesRepository();
+        ClientesRepositoryJdbc clienteRepo = new ClientesRepositoryJdbc();
         CuentaRepository cuentasRepo = new CuentaRepository();
         OperacionesRepository operacionesRepo = new OperacionesRepository();
 

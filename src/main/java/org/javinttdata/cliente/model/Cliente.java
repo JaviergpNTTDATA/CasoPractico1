@@ -37,6 +37,10 @@ public class Cliente {
         setTelefono(telefono);
     }
 
+    public Cliente() {
+
+    }
+
     //Getter y Setters
 
     // El ID solo lo asigna el Repository

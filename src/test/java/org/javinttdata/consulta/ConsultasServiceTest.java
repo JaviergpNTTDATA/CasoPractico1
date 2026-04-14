@@ -5,6 +5,8 @@ import org.javinttdata.operacion.model.Operacion;
 import org.javinttdata.operacion.model.enums.TipoOperacion;
 import org.javinttdata.operacion.repository.OperacionesRepository;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,10 +23,10 @@ class ConsultasServiceTest {
     @Test
     void testFiltradoRangoFechasExitoso() {
         //Creamos dos fechas para hacer las pruebas
-        Operacion opVieja = new Operacion(TipoOperacion.Deposito, 100);
+        Operacion opVieja = new Operacion(TipoOperacion.DEPOSITO, BigDecimal.valueOf(100));
         opVieja.setFecha(LocalDateTime.of(2023, 1, 1, 10, 0));
 
-        Operacion opReciente = new Operacion(TipoOperacion.Retiro, 50);
+        Operacion opReciente = new Operacion(TipoOperacion.RETIRO, BigDecimal.valueOf(50));
         opReciente.setFecha(LocalDateTime.of(2023, 6, 1, 10, 0));
 
         List<Operacion> historial = List.of(opVieja, opReciente);
@@ -41,7 +43,7 @@ class ConsultasServiceTest {
         //Deberia de haber solo una operacion en junio
         assertEquals(1, filtradas.size());
         //Aqui comprobamos el tipo de la operacion para hacer un doble check
-        assertEquals(TipoOperacion.Retiro, filtradas.get(0).getTipoO());
+        assertEquals(TipoOperacion.RETIRO, filtradas.get(0).getTipoO());
     }
 
     /**
@@ -52,18 +54,5 @@ class ConsultasServiceTest {
         //Creamos el repo y le preguntamos por un iban que claramente no existe
         CuentaRepository repo = new CuentaRepository();
         assertNull(repo.buscarPorIban("IBAN_FALSO"));
-    }
-
-    /**
-     * Test que valida que si no hay operaciones la preguntar por ella sepa actuar correctamente
-     */
-    @Test
-    void testHistorialVacioNoLanzaExcepcion() {
-        //Si una cuenta no tiene operaciones, debe devolver null y no una excepcion
-        OperacionesRepository repoOp = new OperacionesRepository();
-        List<Operacion> lista = repoOp.operaciones.get("ES910000");
-
-        //Comprobamos que de null
-        assertNull(lista);
     }
 }

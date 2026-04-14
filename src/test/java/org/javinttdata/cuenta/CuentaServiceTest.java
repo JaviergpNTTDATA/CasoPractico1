@@ -16,7 +16,7 @@ class CuentaServiceTest {
     @Test
     void deberiaGenerarIbanCorrectoYSaldoDebeSer0() {
         Cliente titular = new Cliente("Carlos", "Ruiz", "11223344C", "carlos@test.com", "622222222");
-        Cuenta cuenta = new Cuenta(titular);
+        Cuenta cuenta = new Cuenta(titular.getId());
 
         //El iban debe comenzar por esta cadena, ya que viene definida asi
         assertTrue(cuenta.getIban().startsWith("ES91210000"));

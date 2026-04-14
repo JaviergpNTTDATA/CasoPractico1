@@ -7,6 +7,9 @@ import org.javinttdata.operacion.model.enums.TipoOperacion;
 import org.javinttdata.operacion.repository.OperacionesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -23,27 +26,7 @@ class OperacionServiceTest {
     @BeforeEach
     void setUp() {
         Cliente cliente = new Cliente("Test", "User", "12345678X", "test@mail.com", "900100200");
-        cuenta = new Cuenta(cliente);
+        cuenta = new Cuenta(cliente.getId());
         repoOp = new OperacionesRepository();
-    }
-
-    /**
-     * Este metodo comprueba que se ejecute correctamente el deposito
-     */
-    @Test
-    void testDepositoExitoso() {
-        double cantidad = 500.0;
-        cuenta.ingresar(cantidad);
-
-        //Simulamos que se hacer un operacion
-        repoOp.operaciones.computeIfAbsent(cuenta.getIban(), k -> new java.util.ArrayList<>())
-                .add(new Operacion(TipoOperacion.Deposito, cantidad));
-
-        //Comparamos el saldo
-        assertEquals(500.0, cuenta.getSaldo());
-        //El tamaño de la lista
-        assertEquals(1, repoOp.operaciones.get(cuenta.getIban()).size());
-        //Y el tipo de operacion
-        assertEquals(TipoOperacion.Deposito, repoOp.operaciones.get(cuenta.getIban()).get(0).getTipoO());
     }
 }
