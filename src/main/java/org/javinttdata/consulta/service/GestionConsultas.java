@@ -60,10 +60,10 @@ public class GestionConsultas {
                     OperacionesConsultas.ConsultarSaldo(repositoryCu);
                     break;
                 case 2:
-                    OperacionesConsultas.HistorialMov(repositoryOp, repositoryCu);
+                    //OperacionesConsultas.HistorialMov(repositoryOp, repositoryCu);
                     break;
                 case 3:
-                    OperacionesConsultas.MovPorFechas(repositoryOp, repositoryCu);
+                    //OperacionesConsultas.MovPorFechas(repositoryOp, repositoryCu);
                     break;
                 case 4:
                     System.out.println("Volviendo al menú...");

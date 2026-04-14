@@ -5,6 +5,7 @@ import org.javinttdata.common.Globales;
 import org.javinttdata.view.MenuCliente.GestionClientes;
 import org.javinttdata.operacion.repository.OperacionesRepository;
 import org.javinttdata.view.MenuCuenta.GestionCuentas;
+import org.javinttdata.view.MenuOperacion.GestionOperaciones;
 
 /**
  * Clase que se encarga de mostrar el menu principal
@@ -16,21 +17,16 @@ public class MenuPrincipal {
 
     private final GestionClientes gestionCl;
     private final GestionCuentas gestionCu;
+    private final GestionOperaciones gestionOp;
 
 
 
-    public MenuPrincipal(GestionCuentas gestionCu, GestionClientes gestionCl, OperacionesRepository repositoryOp) {
+    public MenuPrincipal(GestionCuentas gestionCu, GestionClientes gestionCl, GestionOperaciones gestionOp) {
         this.gestionCu = gestionCu;
         this.gestionCl = gestionCl;
-        this.repositoryOp = repositoryOp;
+        this.gestionOp = gestionOp;
     }
 
-
-    public MenuPrincipal(GestionClientes gestionCl, GestionCuentas gestionCu)
-    {
-        this.gestionCl = gestionCl;
-        this.gestionCu = gestionCu;
-    }
 
     /**
      * Metodo que se encarga de mostrar el menu
@@ -75,7 +71,7 @@ public class MenuPrincipal {
                     gestionCu.opcionesMenu();
                     break;
                 case 3:
-                    //gestionOp.OpcionesMenuC();
+                    gestionOp.opcionesMenu();
                     break;
                 case 4:
                     //gestionCo.OpcionesMenuC();

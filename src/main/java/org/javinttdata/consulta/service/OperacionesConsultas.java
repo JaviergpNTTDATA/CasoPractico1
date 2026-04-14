@@ -17,6 +17,7 @@ import java.util.Locale;
 /**
  * Clase que gestiona los metodos que se ejecutan en el menu
  */
+
 public class OperacionesConsultas {
     //Declaramos formatos de fechas que usaremos mas tarde
     private static final DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -49,6 +50,7 @@ public class OperacionesConsultas {
      * @param repositoryOp repositorio de operaciones
      * @param repositoryCu repositorio de cuentas
      */
+    /*
     static void HistorialMov(OperacionesRepository repositoryOp, CuentaRepository repositoryCu) {
         Globales.LimpiarConsola();
         System.out.print("Introduzca número de cuenta: ");
@@ -88,6 +90,7 @@ public class OperacionesConsultas {
      * @param repositoryOp repositorio de operaciones
      * @param repositoryCu repositorio de cuentas
      */
+    /*
     public static void MovPorFechas(OperacionesRepository repositoryOp, CuentaRepository repositoryCu) {
 
         Globales.LimpiarConsola();
@@ -148,5 +151,5 @@ public class OperacionesConsultas {
             System.out.println("No existe la cuenta en la base de datos");
         }
         Globales.Continuar();
-    }
+    }*/
 }

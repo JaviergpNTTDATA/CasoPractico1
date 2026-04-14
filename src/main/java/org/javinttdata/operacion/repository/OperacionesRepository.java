@@ -1,16 +1,59 @@
 package org.javinttdata.operacion.repository;
 
-import org.javinttdata.operacion.model.Operacion;
+import org.javinttdata.config.DatabaseConnectionManager;
+import org.javinttdata.operacion.model.enums.TipoOperacion;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-/**
- * Repositorio de las operaciones
- */
 public class OperacionesRepository {
-    public Map<String, List<Operacion>> operaciones = new HashMap<>();//Mapa encargado de guardar las opereaciones de cada numero de cuenta
 
+    // ✅ Versión simple (no transaccional)
+    public void guardar(int cuentaId,
+                        TipoOperacion tipo,
+                        double cantidad) {
+
+        String sql = """
+                INSERT INTO movimientos (cuenta_id, tipo, cantidad)
+                VALUES (?, ?, ?)
+                """;
+
+        try (Connection conn = DatabaseConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, cuentaId);
+            stmt.setString(2, tipo.name());
+            stmt.setDouble(3, cantidad);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al guardar movimiento", e);
+        }
+    }
+
+    // ✅ Versión para usar dentro de transacción
+    public void guardar(Connection conn,
+                        int cuentaId,
+                        TipoOperacion tipo,
+                        double cantidad) {
+
+        String sql = """
+                INSERT INTO movimientos (cuenta_id, tipo, cantidad)
+                VALUES (?, ?, ?)
+                """;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, cuentaId);
+            stmt.setString(2, tipo.name());
+            stmt.setDouble(3, cantidad);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al guardar movimiento", e);
+        }
+    }
 }
