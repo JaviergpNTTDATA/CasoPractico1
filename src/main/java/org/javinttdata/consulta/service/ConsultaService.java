@@ -13,8 +13,7 @@ public class ConsultaService {
     private final CuentaRepository cuentaRepository;
     private final OperacionesRepositoryJdbc operacionesRepository;
 
-    public ConsultaService(CuentaRepository cuentaRepository,
-                           OperacionesRepositoryJdbc operacionesRepository) {
+    public ConsultaService(CuentaRepository cuentaRepository, OperacionesRepositoryJdbc operacionesRepository) {
         this.cuentaRepository = cuentaRepository;
         this.operacionesRepository = operacionesRepository;
     }
