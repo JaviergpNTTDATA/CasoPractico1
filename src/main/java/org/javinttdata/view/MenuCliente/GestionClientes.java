@@ -41,7 +41,7 @@ public class GestionClientes {
                 case 2 -> buscarCliente();
                 case 3 -> mostrarClientes();
                 case 4 -> {
-                    System.out.println("Volviendo...");
+                    System.out.println("Volviendo al menú...");
                     Globales.Continuar();
                 }
                 default -> {

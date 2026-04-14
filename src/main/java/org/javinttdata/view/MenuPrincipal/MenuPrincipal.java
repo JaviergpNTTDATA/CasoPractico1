@@ -1,9 +1,9 @@
 package org.javinttdata.view.MenuPrincipal;
 
-import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.common.Globales;
 import org.javinttdata.view.MenuCliente.GestionClientes;
 import org.javinttdata.operacion.repository.OperacionesRepository;
+import org.javinttdata.view.MenuConsultas.GestionConsultas;
 import org.javinttdata.view.MenuCuenta.GestionCuentas;
 import org.javinttdata.view.MenuOperacion.GestionOperaciones;
 
@@ -18,13 +18,15 @@ public class MenuPrincipal {
     private final GestionClientes gestionCl;
     private final GestionCuentas gestionCu;
     private final GestionOperaciones gestionOp;
+    private final GestionConsultas gestionCo;
 
 
 
-    public MenuPrincipal(GestionCuentas gestionCu, GestionClientes gestionCl, GestionOperaciones gestionOp) {
+    public MenuPrincipal(GestionCuentas gestionCu, GestionClientes gestionCl, GestionOperaciones gestionOp, GestionConsultas gestionCo) {
         this.gestionCu = gestionCu;
         this.gestionCl = gestionCl;
         this.gestionOp = gestionOp;
+        this.gestionCo = gestionCo;
     }
 
 
@@ -74,7 +76,7 @@ public class MenuPrincipal {
                     gestionOp.opcionesMenu();
                     break;
                 case 4:
-                    //gestionCo.OpcionesMenuC();
+                    gestionCo.opcionesMenu();
                     break;
                 case 5:
                     System.out.println("Saliendo del sistema...");

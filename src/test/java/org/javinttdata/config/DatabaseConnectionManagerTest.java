@@ -20,8 +20,8 @@ class DatabaseConnectionManagerTest {
 
     @Test
     void debeCrearDiferentesConexiones() throws SQLException {
-        Connection connection1 = DatabaseConnectionManager.getConnection();
-        Connection connection2 = DatabaseConnectionManager.getConnection();
+        Connection connection1 = DatabaseConnectionManager.getInstance().getConnection();
+        Connection connection2 = DatabaseConnectionManager.getInstance().getConnection();
 
         assertNotNull(connection1);
         assertNotNull(connection2);
@@ -32,7 +32,7 @@ class DatabaseConnectionManagerTest {
 
     @Test
     void deveDeSerConexionValida() throws SQLException {
-        try (Connection connection = DatabaseConnectionManager.getConnection()) {
+        try (Connection connection = DatabaseConnectionManager.getInstance().getConnection()) {
             assertTrue(connection.isValid(3)); //Ponemos un timeout de 3 segundo
         }
     }
