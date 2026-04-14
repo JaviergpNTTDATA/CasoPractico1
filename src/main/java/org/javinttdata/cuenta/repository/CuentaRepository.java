@@ -71,53 +71,42 @@ public class CuentaRepository {
      * @return lista de cuentas con el id
      */
     public List<Cuenta> buscarPorIdCliente(Long idCliente) {
+
         List<Cuenta> lista = new ArrayList<>();
-        String sentencia1 = """
-                SELECT * FROM cuentas WHERE cliente_id = ?
-                """;
+
+        String sql = """
+            SELECT * FROM cuentas
+            WHERE cliente_id = ?
+            """;
 
         try (Connection conn = DatabaseConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sentencia1)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, idCliente.intValue());
+            stmt.setLong(1, idCliente);
 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Cliente c = null;
-                String sentencia2 = """
-                        SELECT * FROM clientes WHERE id = ?
-                        """;
-                try (Connection conn2 = DatabaseConnectionManager.getConnection();
-                     PreparedStatement stmt2 = conn2.prepareStatement(sentencia2)) {
 
-                    stmt2.setInt(1, idCliente.intValue());
-
-                    ResultSet rs2 = stmt2.executeQuery();
-
-                    if(rs2.next()) {
-                        c = new Cliente(
-                                rs2.getString("nombre"),
-                                rs2.getString("apellidos"),
-                                rs2.getString("dni"),
-                                rs2.getString("email"),
-                                rs2.getString("telefono")
-
-                        );
-                        c.setId(rs2.getLong("id"));
-                    }
-                }
                 Cuenta encontrada = new Cuenta();
-                encontrada.setIban(rs.getString("numero_cuenta"));
                 encontrada.setId(rs.getLong("id"));
+                encontrada.setIban(rs.getString("numero_cuenta"));
+                encontrada.setSaldo(rs.getDouble("saldo"));
+                encontrada.setCliente_id(rs.getLong("cliente_id"));
+                encontrada.setFechaCreacion(
+                        rs.getTimestamp("fecha_creacion")
+                                .toLocalDateTime());
+
                 lista.add(encontrada);
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         return lista;
     }
+
 
     public void guardar(Cuenta cuenta) {
 
@@ -171,7 +160,7 @@ public class CuentaRepository {
         try (Connection conn = DatabaseConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sentencia1)) {
 
-            stmt.setString(1,iban);
+            stmt.setString(1, iban);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -182,6 +171,8 @@ public class CuentaRepository {
                 encontrada.setFechaCreacion(rs.getTimestamp("fecha_creacion").toLocalDateTime());
                 encontrada.setCliente_id(rs.getLong("cliente_id"));
                 encontrada.setId(rs.getLong("id"));
+
+                encontrada.setSaldo(rs.getDouble("saldo"));
             }
 
         } catch (SQLException e) {
@@ -189,5 +180,60 @@ public class CuentaRepository {
         }
         return encontrada;
     }
+
+    public void actualizarSaldo(Connection conn, Cuenta cuenta) {
+
+        String sql = """
+                UPDATE cuentas
+                SET saldo = ?
+                WHERE id = ?
+                """;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setDouble(1, cuenta.getSaldo());
+            stmt.setLong(2, cuenta.getId());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al actualizar saldo", e);
+        }
+    }
+
+    public Cuenta buscarPorIban(Connection conn, String iban) {
+
+        Cuenta encontrada = null;
+
+        String sql = """
+                SELECT * FROM cuentas
+                WHERE numero_cuenta = ?
+                """;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, iban);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                encontrada = new Cuenta();
+                encontrada.setIban(iban);
+                encontrada.setFechaCreacion(
+                        rs.getTimestamp("fecha_creacion").toLocalDateTime());
+                encontrada.setCliente_id(rs.getLong("cliente_id"));
+                encontrada.setId(rs.getLong("id"));
+                encontrada.setSaldo(rs.getDouble("saldo"));
+                encontrada.setSaldo(rs.getDouble("saldo"));
+
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al buscar cuenta por IBAN", e);
+        }
+
+        return encontrada;
+    }
+
 
 }
