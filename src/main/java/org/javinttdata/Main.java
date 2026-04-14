@@ -3,7 +3,7 @@ package org.javinttdata;
 import org.javinttdata.cliente.repository.ClientesRepositoryJdbc;
 import org.javinttdata.cliente.service.ClienteService;
 import org.javinttdata.consulta.service.ConsultaService;
-import org.javinttdata.cuenta.repository.CuentaRepository;
+import org.javinttdata.cuenta.repository.CuentaRepositoryJdbc;
 import org.javinttdata.cuenta.service.CuentaService;
 import org.javinttdata.operacion.service.OperacionService;
 import org.javinttdata.view.MenuCliente.GestionClientes;
@@ -15,7 +15,7 @@ import org.javinttdata.operacion.repository.OperacionesRepository;
 
 public class Main {
     public static void main(String[] args) {
-        CuentaRepository repositoryCu = new CuentaRepository();//Iniciamos repositorio de cuentas
+        CuentaRepositoryJdbc repositoryCu = new CuentaRepositoryJdbc();//Iniciamos repositorio de cuentas
         ClientesRepositoryJdbc repositoryCl = new ClientesRepositoryJdbc();//Iniciamos repositorio de clientes
         OperacionesRepository repositoryOp = new OperacionesRepository();//Iniciamos repositorio de operaciones
 
@@ -23,7 +23,7 @@ public class Main {
 
         //Repositorios
         ClientesRepositoryJdbc clienteRepo = new ClientesRepositoryJdbc();
-        CuentaRepository cuentasRepo = new CuentaRepository();
+        CuentaRepositoryJdbc cuentasRepo = new CuentaRepositoryJdbc();
         OperacionesRepository operacionesRepo = new OperacionesRepository();
 
         //Servicios

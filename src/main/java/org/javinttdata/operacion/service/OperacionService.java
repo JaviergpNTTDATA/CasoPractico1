@@ -9,6 +9,7 @@ import org.javinttdata.operacion.repository.OperacionesRepository;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class OperacionService {
 
@@ -21,6 +22,9 @@ public class OperacionService {
         this.operacionesRepository = operacionesRepository;
     }
 
+    // =========================
+    // DEPOSITO
+    // =========================
     public Cuenta depositar(String iban, BigDecimal cantidad) {
 
         if (cantidad == null || cantidad.compareTo(BigDecimal.ZERO) <= 0)
@@ -28,17 +32,28 @@ public class OperacionService {
 
         try (Connection conn = DatabaseConnectionManager.getInstance().getConnection()) {
 
-            Cuenta cuenta = cuentaRepository.buscarPorIban(conn, iban);
-            if (cuenta == null) return null;
+            Optional<Cuenta> cuentaOpt =
+                    cuentaRepository.buscarPorNumero(iban, conn);
 
-            cuenta.ingresar(cantidad);
+            if (cuentaOpt.isEmpty())
+                return null;
 
-            cuentaRepository.actualizarSaldo(conn, cuenta);
+            Cuenta cuenta = cuentaOpt.get();
+
+            BigDecimal nuevoSaldo = cuenta.getSaldo().add(cantidad);
+
+            cuentaRepository.actualizarSaldo(
+                    cuenta.getId(),
+                    nuevoSaldo,
+                    conn
+            );
 
             operacionesRepository.guardar(conn,
                     Math.toIntExact(cuenta.getId()),
                     TipoOperacion.DEPOSITO,
                     cantidad);
+
+            cuenta.setSaldo(nuevoSaldo);
 
             return cuenta;
 
@@ -47,6 +62,9 @@ public class OperacionService {
         }
     }
 
+    // =========================
+    // RETIRO
+    // =========================
     public Cuenta retirar(String iban, BigDecimal cantidad) {
 
         if (cantidad == null || cantidad.compareTo(BigDecimal.ZERO) <= 0)
@@ -54,20 +72,32 @@ public class OperacionService {
 
         try (Connection conn = DatabaseConnectionManager.getInstance().getConnection()) {
 
-            Cuenta cuenta = cuentaRepository.buscarPorIban(conn, iban);
+            Optional<Cuenta> cuentaOpt =
+                    cuentaRepository.buscarPorNumero(iban, conn);
 
-            if (cuenta == null ||
-                    cuenta.getSaldo().compareTo(cantidad) < 0)
+            if (cuentaOpt.isEmpty())
                 return null;
 
-            cuenta.retirar(cantidad);
+            Cuenta cuenta = cuentaOpt.get();
 
-            cuentaRepository.actualizarSaldo(conn, cuenta);
+            if (cuenta.getSaldo().compareTo(cantidad) < 0)
+                return null;
+
+            BigDecimal nuevoSaldo =
+                    cuenta.getSaldo().subtract(cantidad);
+
+            cuentaRepository.actualizarSaldo(
+                    cuenta.getId(),
+                    nuevoSaldo,
+                    conn
+            );
 
             operacionesRepository.guardar(conn,
                     Math.toIntExact(cuenta.getId()),
                     TipoOperacion.RETIRO,
                     cantidad);
+
+            cuenta.setSaldo(nuevoSaldo);
 
             return cuenta;
 
@@ -76,17 +106,18 @@ public class OperacionService {
         }
     }
 
+    // =========================
+    // TRANSFERENCIA
+    // =========================
     public void transferir(String numeroCuentaOrigen,
                            String numeroCuentaDestino,
                            BigDecimal importe) {
 
-        if (importe == null || importe.compareTo(BigDecimal.ZERO) <= 0) {
+        if (importe == null || importe.compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("Importe inválido");
-        }
 
-        if (numeroCuentaOrigen.equals(numeroCuentaDestino)) {
+        if (numeroCuentaOrigen.equals(numeroCuentaDestino))
             throw new IllegalArgumentException("No se puede transferir a la misma cuenta");
-        }
 
         try (Connection conn = DatabaseConnectionManager.getInstance().getConnection()) {
 
@@ -94,26 +125,41 @@ public class OperacionService {
 
             try {
 
-                Cuenta origen = cuentaRepository
-                        .buscarPorIban(conn, numeroCuentaOrigen);
+                Optional<Cuenta> origenOpt =
+                        cuentaRepository.buscarPorNumero(numeroCuentaOrigen, conn);
 
-                if (origen == null)
+                Optional<Cuenta> destinoOpt =
+                        cuentaRepository.buscarPorNumero(numeroCuentaDestino, conn);
+
+                if (origenOpt.isEmpty())
                     throw new RuntimeException("Cuenta origen no encontrada");
 
-                Cuenta destino = cuentaRepository
-                        .buscarPorIban(conn, numeroCuentaDestino);
-
-                if (destino == null)
+                if (destinoOpt.isEmpty())
                     throw new RuntimeException("Cuenta destino no encontrada");
+
+                Cuenta origen = origenOpt.get();
+                Cuenta destino = destinoOpt.get();
 
                 if (origen.getSaldo().compareTo(importe) < 0)
                     throw new RuntimeException("Saldo insuficiente");
 
-                origen.setSaldo(origen.getSaldo().subtract(importe));
-                destino.setSaldo(destino.getSaldo().add(importe));
+                BigDecimal nuevoSaldoOrigen =
+                        origen.getSaldo().subtract(importe);
 
-                cuentaRepository.actualizarSaldo(conn, origen);
-                cuentaRepository.actualizarSaldo(conn, destino);
+                BigDecimal nuevoSaldoDestino =
+                        destino.getSaldo().add(importe);
+
+                cuentaRepository.actualizarSaldo(
+                        origen.getId(),
+                        nuevoSaldoOrigen,
+                        conn
+                );
+
+                cuentaRepository.actualizarSaldo(
+                        destino.getId(),
+                        nuevoSaldoDestino,
+                        conn
+                );
 
                 operacionesRepository.guardar(conn,
                         Math.toIntExact(origen.getId()),

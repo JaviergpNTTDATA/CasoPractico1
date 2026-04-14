@@ -1,7 +1,7 @@
 package org.javinttdata.consulta.service;
 
 import org.javinttdata.cuenta.model.Cuenta;
-import org.javinttdata.cuenta.repository.CuentaRepository;
+import org.javinttdata.cuenta.repository.CuentaRepositoryJdbc;
 import org.javinttdata.operacion.model.Operacion;
 import org.javinttdata.operacion.repository.OperacionesRepository;
 
@@ -10,22 +10,22 @@ import java.util.List;
 
 public class ConsultaService {
 
-    private final CuentaRepository cuentaRepository;
+    private final CuentaRepositoryJdbc cuentaRepository;
     private final OperacionesRepository operacionesRepository;
 
-    public ConsultaService(CuentaRepository cuentaRepository,
+    public ConsultaService(CuentaRepositoryJdbc cuentaRepository,
                            OperacionesRepository operacionesRepository) {
         this.cuentaRepository = cuentaRepository;
         this.operacionesRepository = operacionesRepository;
     }
 
     public Cuenta consultarSaldo(String iban) {
-        return cuentaRepository.buscarPorIban(iban);
+        return cuentaRepository.buscarPorNumero(iban).orElse(null);
     }
 
     public List<Operacion> historialMovimientos(String iban) {
 
-        Cuenta cuenta = cuentaRepository.buscarPorIban(iban);
+        Cuenta cuenta = cuentaRepository.buscarPorNumero(iban).orElse(null);
         if (cuenta == null) return null;
 
         return operacionesRepository.obtenerMovimientosPorCuenta(iban);
@@ -35,7 +35,7 @@ public class ConsultaService {
                                                LocalDate inicio,
                                                LocalDate fin) {
 
-        Cuenta cuenta = cuentaRepository.buscarPorIban(iban);
+        Cuenta cuenta = cuentaRepository.buscarPorNumero(iban).orElse(null);
         if (cuenta == null) return null;
 
         return operacionesRepository.obtenerMovimientosPorFechas(

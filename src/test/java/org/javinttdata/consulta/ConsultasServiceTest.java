@@ -1,9 +1,8 @@
 package org.javinttdata.consulta;
 
-import org.javinttdata.cuenta.repository.CuentaRepository;
+import org.javinttdata.cuenta.repository.CuentaRepositoryJdbc;
 import org.javinttdata.operacion.model.Operacion;
 import org.javinttdata.operacion.model.enums.TipoOperacion;
-import org.javinttdata.operacion.repository.OperacionesRepository;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -52,7 +51,7 @@ class ConsultasServiceTest {
     @Test
     void testConsultaSaldoCuentaInexistente() {
         //Creamos el repo y le preguntamos por un iban que claramente no existe
-        CuentaRepository repo = new CuentaRepository();
-        assertNull(repo.buscarPorIban("IBAN_FALSO"));
+        CuentaRepositoryJdbc repo = new CuentaRepositoryJdbc();
+        assertNull(repo.buscarPorNumero("IBAN_FALSO"));
     }
 }
