@@ -4,7 +4,6 @@ import org.javinttdata.config.DatabaseConnectionManager;
 import org.javinttdata.cuenta.model.Cuenta;
 import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.operacion.factory.MovimientoFactory;
-import org.javinttdata.operacion.model.enums.TipoOperacion;
 import org.javinttdata.operacion.repository.OperacionesRepositoryJdbc;
 
 import java.math.BigDecimal;
@@ -36,29 +35,21 @@ public class OperacionService {
             Optional<Cuenta> cuentaOpt =
                     cuentaRepository.buscarPorNumero(iban, conn);
 
-<<<<<<< HEAD
             if (cuentaOpt.isEmpty())
                 return null;
 
             Cuenta cuenta = cuentaOpt.get();
 
-            BigDecimal nuevoSaldo = cuenta.getSaldo().add(cantidad);
-
-            cuentaRepository.actualizarSaldo(
-                    cuenta.getId(),
-                    nuevoSaldo,
-                    conn
-            );
-=======
             cuenta.ingresar(cantidad);
-            cuentaRepository.actualizarSaldo(conn, cuenta);
->>>>>>> 4660014 (Commit final de la capa operacion(a priori))
+            cuentaRepository.actualizarSaldo(cuenta.getId(), cantidad);
 
             var movimiento = MovimientoFactory.crearDeposito(cantidad);
 
-            operacionesRepository.guardar(conn, Math.toIntExact(cuenta.getId()), movimiento);
-
-            cuenta.setSaldo(nuevoSaldo);
+            operacionesRepository.guardar(
+                    conn,
+                    Math.toIntExact(cuenta.getId()),
+                    movimiento
+            );
 
             return cuenta;
 
@@ -67,13 +58,9 @@ public class OperacionService {
         }
     }
 
-<<<<<<< HEAD
     // =========================
     // RETIRO
     // =========================
-=======
-
->>>>>>> 4660014 (Commit final de la capa operacion(a priori))
     public Cuenta retirar(String iban, BigDecimal cantidad) {
 
         if (cantidad == null || cantidad.compareTo(BigDecimal.ZERO) <= 0)
@@ -118,7 +105,6 @@ public class OperacionService {
         }
     }
 
-<<<<<<< HEAD
     // =========================
     // TRANSFERENCIA
     // =========================
@@ -126,11 +112,6 @@ public class OperacionService {
                            String numeroCuentaDestino,
                            BigDecimal importe) {
 
-=======
-
-    public void transferir(String numeroCuentaOrigen, String numeroCuentaDestino, BigDecimal importe) {
-
->>>>>>> 4660014 (Commit final de la capa operacion(a priori))
         if (importe == null || importe.compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("Importe inválido");
 
@@ -179,9 +160,11 @@ public class OperacionService {
                         conn
                 );
 
-                var movSalida = MovimientoFactory.crearTransferenciaSaliente(importe);
+                var movSalida =
+                        MovimientoFactory.crearTransferenciaSaliente(importe);
 
-                var movEntrada = MovimientoFactory.crearTransferenciaEntrante(importe);
+                var movEntrada =
+                        MovimientoFactory.crearTransferenciaEntrante(importe);
 
                 operacionesRepository.guardar(
                         conn,
@@ -206,5 +189,4 @@ public class OperacionService {
             throw new RuntimeException("Error de conexión", e);
         }
     }
-
 }

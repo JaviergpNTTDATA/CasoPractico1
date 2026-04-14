@@ -1,28 +1,20 @@
 package org.javinttdata.consulta.service;
 
 import org.javinttdata.cuenta.model.Cuenta;
-import org.javinttdata.cuenta.repository.CuentaRepositoryJdbc;
+import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.operacion.model.Operacion;
 import org.javinttdata.operacion.repository.OperacionesRepositoryJdbc;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ConsultaService {
 
-<<<<<<< HEAD
-    private final CuentaRepositoryJdbc cuentaRepository;
-    private final OperacionesRepository operacionesRepository;
-
-    public ConsultaService(CuentaRepositoryJdbc cuentaRepository,
-                           OperacionesRepository operacionesRepository) {
-=======
     private final CuentaRepository cuentaRepository;
     private final OperacionesRepositoryJdbc operacionesRepository;
 
-    public ConsultaService(CuentaRepository cuentaRepository, OperacionesRepositoryJdbc operacionesRepository) {
->>>>>>> 4660014 (Commit final de la capa operacion(a priori))
+    public ConsultaService(CuentaRepository cuentaRepository,
+                           OperacionesRepositoryJdbc operacionesRepository) {
         this.cuentaRepository = cuentaRepository;
         this.operacionesRepository = operacionesRepository;
     }
@@ -39,7 +31,6 @@ public class ConsultaService {
         return operacionesRepository
                 .buscarPorCuentaId(cuenta.getId());
     }
-
 
     public List<Operacion> movimientosPorFecha(String iban,
                                                LocalDate inicio,
