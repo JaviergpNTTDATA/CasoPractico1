@@ -2,19 +2,20 @@ package org.javinttdata.cuenta.service;
 
 import org.javinttdata.cliente.model.Cliente;
 import org.javinttdata.cliente.repository.ClienteRepository;
+import org.javinttdata.cliente.repository.ClientesRepositoryJdbc;
 import org.javinttdata.cuenta.model.Cuenta;
-import org.javinttdata.cuenta.repository.CuentaRepository;
+import org.javinttdata.cuenta.repository.CuentaRepositoryJdbc;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CuentaService {
 
-    private final CuentaRepository cuentaRepository;
-    private final ClienteRepository clientesRepository;
+    //Declaramos los repositorios que vamos a usar
+    private final CuentaRepositoryJdbc cuentaRepository;
+    private final ClientesRepositoryJdbc clientesRepository;
 
-    public CuentaService(CuentaRepository cuentaRepository,
-                         ClienteRepository clientesRepository) {
+    public CuentaService(CuentaRepositoryJdbc cuentaRepository, ClientesRepositoryJdbc clientesRepository) {
         this.cuentaRepository = cuentaRepository;
         this.clientesRepository = clientesRepository;
     }
@@ -34,7 +35,7 @@ public class CuentaService {
     }
 
     public List<Cuenta> listarCuentasCliente(long idCliente) {
-        return cuentaRepository.buscarPorIdCliente(idCliente);
+        return cuentaRepository.buscarPorClienteId(idCliente);
     }
 
     public Cliente buscarCliente(long id) {
@@ -42,6 +43,8 @@ public class CuentaService {
     }
 
     public Cuenta buscarPorIban(String iban) {
-        return cuentaRepository.buscarPorIban(iban);
+        return cuentaRepository.buscarPorNumero(iban)
+                .orElse(null);
     }
+
 }
