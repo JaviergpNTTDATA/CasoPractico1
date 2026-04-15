@@ -3,6 +3,7 @@ package org.javinttdata.consulta.service;
 import org.javinttdata.cuenta.model.Cuenta;
 import org.javinttdata.cuenta.repository.CuentaRepository;
 import org.javinttdata.operacion.model.Operacion;
+import org.javinttdata.operacion.repository.OperacionRepository;
 import org.javinttdata.operacion.repository.OperacionesRepositoryJdbc;
 
 import java.time.LocalDate;
@@ -11,9 +12,9 @@ import java.util.List;
 public class ConsultaService {
 
     private final CuentaRepository cuentaRepository;
-    private final OperacionesRepositoryJdbc operacionesRepository;
+    private final OperacionRepository operacionesRepository;
 
-    public ConsultaService(CuentaRepository cuentaRepository, OperacionesRepositoryJdbc operacionesRepository) {
+    public ConsultaService(CuentaRepository cuentaRepository, OperacionRepository operacionesRepository) {
         this.cuentaRepository = cuentaRepository;
         this.operacionesRepository = operacionesRepository;
     }
@@ -24,24 +25,21 @@ public class ConsultaService {
 
     public List<Operacion> historialMovimientos(String iban) {
 
-        Cuenta cuenta = cuentaRepository.buscarPorNumero(iban).orElse(null);
-        if (cuenta == null) return null;
-
-        return operacionesRepository
-                .buscarPorCuentaId(cuenta.getId());
+        return cuentaRepository.buscarPorNumero(iban)
+                .map(cuenta -> operacionesRepository
+                        .buscarPorCuentaId(cuenta.getId()))
+                .orElse(null);
     }
 
-    public List<Operacion> movimientosPorFecha(String iban,
-                                               LocalDate inicio,
-                                               LocalDate fin) {
+    public List<Operacion> movimientosPorFecha(String iban, LocalDate inicio, LocalDate fin) {
 
-        Cuenta cuenta = cuentaRepository.buscarPorNumero(iban).orElse(null);
-        if (cuenta == null) return null;
-
-        return operacionesRepository.buscarPorCuentaIdYFechas(
-                cuenta.getId(),
-                inicio.atStartOfDay(),
-                fin.atTime(23, 59, 59)
-        );
+        return cuentaRepository.buscarPorNumero(iban)
+                .map(cuenta -> operacionesRepository
+                        .buscarPorCuentaIdYFechas(
+                                cuenta.getId(),
+                                inicio.atStartOfDay(),
+                                fin.atTime(23, 59, 59)))
+                .orElse(null);
     }
+
 }

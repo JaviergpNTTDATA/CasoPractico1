@@ -15,6 +15,10 @@ public class Operacion {
     private BigDecimal cantidad;
     private LocalDateTime fecha;
 
+    public Operacion() {
+
+    }
+
 
     public TipoOperacion getTipoO() {
         return tipoO;

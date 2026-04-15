@@ -22,9 +22,6 @@ public class OperacionService {
         this.operacionesRepository = operacionesRepository;
     }
 
-    // =========================
-    // DEPOSITO
-    // =========================
     public Cuenta depositar(String iban, BigDecimal cantidad) {
 
         if (cantidad == null || cantidad.compareTo(BigDecimal.ZERO) <= 0)
@@ -32,16 +29,19 @@ public class OperacionService {
 
         try (Connection conn = DatabaseConnectionManager.getInstance().getConnection()) {
 
-            Optional<Cuenta> cuentaOpt =
-                    cuentaRepository.buscarPorNumero(iban, conn);
+            Cuenta cuenta = cuentaRepository.buscarPorNumero(iban, conn)
+                    .orElse(null);
 
-            if (cuentaOpt.isEmpty())
+            if (cuenta == null)
                 return null;
 
-            Cuenta cuenta = cuentaOpt.get();
-
             cuenta.ingresar(cantidad);
-            cuentaRepository.actualizarSaldo(cuenta.getId(), cantidad);
+
+            cuentaRepository.actualizarSaldo(
+                    cuenta.getId(),
+                    cuenta.getSaldo(),
+                    conn
+            );
 
             var movimiento = MovimientoFactory.crearDeposito(cantidad);
 
@@ -58,9 +58,7 @@ public class OperacionService {
         }
     }
 
-    // =========================
-    // RETIRO
-    // =========================
+
     public Cuenta retirar(String iban, BigDecimal cantidad) {
 
         if (cantidad == null || cantidad.compareTo(BigDecimal.ZERO) <= 0)
@@ -68,8 +66,7 @@ public class OperacionService {
 
         try (Connection conn = DatabaseConnectionManager.getInstance().getConnection()) {
 
-            Optional<Cuenta> cuentaOpt =
-                    cuentaRepository.buscarPorNumero(iban, conn);
+            Optional<Cuenta> cuentaOpt = cuentaRepository.buscarPorNumero(iban, conn);
 
             if (cuentaOpt.isEmpty())
                 return null;
@@ -105,12 +102,7 @@ public class OperacionService {
         }
     }
 
-    // =========================
-    // TRANSFERENCIA
-    // =========================
-    public void transferir(String numeroCuentaOrigen,
-                           String numeroCuentaDestino,
-                           BigDecimal importe) {
+    public void transferir(String numeroCuentaOrigen, String numeroCuentaDestino, BigDecimal importe) {
 
         if (importe == null || importe.compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("Importe inválido");

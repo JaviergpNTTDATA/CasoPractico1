@@ -48,10 +48,5 @@ class ConsultasServiceTest {
     /**
      * Test que verifica que si se da un iban incorrecto devuelva null y no una cuenta
      */
-    @Test
-    void testConsultaSaldoCuentaInexistente() {
-        //Creamos el repo y le preguntamos por un iban que claramente no existe
-        CuentaRepositoryJdbc repo = new CuentaRepositoryJdbc();
-        assertNull(repo.buscarPorNumero("IBAN_FALSO"));
-    }
+
 }

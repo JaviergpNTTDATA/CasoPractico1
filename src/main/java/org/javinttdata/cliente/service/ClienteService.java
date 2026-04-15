@@ -2,6 +2,7 @@ package org.javinttdata.cliente.service;
 
 import org.javinttdata.cliente.model.Cliente;
 import org.javinttdata.cliente.model.ClienteBuilder;
+import org.javinttdata.cliente.repository.ClienteRepository;
 import org.javinttdata.cliente.repository.ClientesRepositoryJdbc;
 
 import java.util.List;
@@ -9,9 +10,9 @@ import java.util.Optional;
 
 public class ClienteService {
 
-    private final ClientesRepositoryJdbc repository;
+    private final ClienteRepository repository; // ✅ INTERFAZ
 
-    public ClienteService(ClientesRepositoryJdbc repository) {
+    public ClienteService(ClienteRepository repository) { // ✅ INTERFAZ
         this.repository = repository;
     }
 

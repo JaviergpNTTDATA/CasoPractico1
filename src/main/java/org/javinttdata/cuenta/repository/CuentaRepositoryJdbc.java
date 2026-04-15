@@ -193,12 +193,7 @@ public class CuentaRepositoryJdbc implements CuentaRepository {
         }
     }
 
-    /**
-     * Este metodo actualiza el saldo, no lo uso, porque lo tengo porgramado con los metodos de las clases
-     * @param cuentaId
-     * @param nuevoSaldo
-     * @return
-     */
+
     @Override
     public Cuenta actualizarSaldo(Long cuentaId, BigDecimal nuevoSaldo, Connection conn) {
 

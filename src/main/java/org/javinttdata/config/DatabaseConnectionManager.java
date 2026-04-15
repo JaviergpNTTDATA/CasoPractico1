@@ -18,11 +18,6 @@ public class DatabaseConnectionManager {
     private DatabaseConnectionManager() {
     }
 
-    /**
-     * Actualmente actúa como clase utilitaria estática.
-     * En un entorno real podria ser un singleton para que este gestionando un pool de conexiones
-     */
-
     // Único punto de acceso global al gestor
     public static DatabaseConnectionManager getInstance() {
         if (instance == null) {
