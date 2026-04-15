@@ -34,6 +34,9 @@ El proyecto está organizado por dominios y capas:
 
 ![Estructura del Proyecto](docs/estructuraProyecto.png)
 
+![Estructura del Proyecto](docs/ascii.png)
+
+
 ---
 
 ## Acceso a datos
@@ -42,13 +45,21 @@ El proyecto está organizado por dominios y capas:
 * Uso de try-with-resources
 * Conversión de ResultSet a objetos Java
 
+## Instalacion de la base de datos
+* En la carpeta resources se encuentra el archivo schema.sql.
+* Ejecuta este archivo en tu consola de PostgreSQL para crear la base de datos y las tablas necesarias.
+
 ---
 
 ## Patrones
 * Repository
+  - Se utiliza una interfaz para definir el contrato que deben cumplir los repositorios, permitiendo una arquitectura más desacoplada y mantenible.
 * Builder
-* Singleton
+  - Utilizado en ClienteService para mejorar la legibilidad y claridad en la creación de objetos complejos.
+* Singleton 
+  - Implementado en DatabaseConnectionManager para garantizar una única instancia de conexión y evitar la creación innecesaria de múltiples conexiones.
 * Factory
+  - Implementado en MovimientoFactory para centralizar y encapsular la creación de distintos tipos de movimientos.
 
 ---
 
@@ -73,6 +84,10 @@ El proyecto está organizado por dominios y capas:
 ## Configuración de la base de datos
 * La conexión se gestiona desde `DatabaseConnectionManager`
 * Desde ahí podrás gestionar las credenciales
+* private static final String URL = "jdbc:postgresql://localhost:5432/novabank"; 
+* private static final String USER = "postgres"; <- Aqui pones tu usario 
+* private static final String PASS = "******"; <- Aqui poner tu contraseña
+
 
 ---
 
